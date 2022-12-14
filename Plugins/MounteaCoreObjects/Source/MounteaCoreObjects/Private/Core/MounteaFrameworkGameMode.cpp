@@ -11,6 +11,12 @@
 
 AMounteaFrameworkGameMode::AMounteaFrameworkGameMode()
 {
+	DefaultPawnClass = AMounteaFrameworkPawn::StaticClass();
+	GameStateClass = AMounteaFrameworkGameState::StaticClass();
+	PlayerControllerClass = AMounteaFrameworkPlayerController::StaticClass();
+	PlayerStateClass = AMounteaFrameworkPlayerState::StaticClass();
+	HUDClass = AMounteaFrameworkHUD::StaticClass();
+	
 	/*
 	static ConstructorHelpers::FClassFinder<AMounteaFrameworkPawn>DefaultPawnClassBP(TEXT("/MounteaCoreObjects/Blueprints/Core/BP_MounteaPawn"));
 	if (DefaultPawnClassBP.Class.Get() != nullptr)
