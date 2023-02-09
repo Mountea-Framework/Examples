@@ -9,6 +9,18 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractionFailed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnKeyMashed);
 
+/**
+ * Actor Interactable Mash Component
+ *
+ * Child class of Actor Interactable Base Component.
+ * This component requires to press interaction key multiple times within specified time period.
+ * This interaction can fail if the interaction key is not pressed enough times or time runs out.
+ * 
+ * Implements ActorInteractableInterface.
+ * Networking is not implemented.
+ *
+ * @see https://github.com/Mountea-Framework/ActorInteractionPlugin/wiki/Actor-Interactable-Component-Mash
+ */
 UCLASS(ClassGroup=(Interaction), Blueprintable, hideCategories=(Collision, AssetUserData, Cooking, Activation), meta=(BlueprintSpawnableComponent, DisplayName = "Interactable Component Mash"))
 class ACTORINTERACTIONPLUGIN_API UActorInteractableComponentMash : public UActorInteractableComponentBase
 {
@@ -21,10 +33,10 @@ public:
 protected:
 	
 	virtual void BeginPlay() override;
-	virtual void InteractionStarted(const float& TimeStarted, const FKey& PressedKey) override;
-	virtual void InteractionStopped(const float& TimeStarted, const FKey& PressedKey) override;
+	virtual void InteractionStarted(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
+	virtual void InteractionStopped(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
 	virtual void InteractionCanceled() override;
-	virtual void InteractionCompleted(const float& TimeCompleted) override;
+	virtual void InteractionCompleted(const float& TimeCompleted, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
 
 protected:
 	
@@ -47,7 +59,7 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category="Interaction")
 	void OnKeyMashedEvent();
 
-	void CleanUpComponent();
+	virtual void CleanupComponent() override;
 	
 public:
 

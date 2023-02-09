@@ -75,5 +75,13 @@ DerivedDataCache/*
 
 # Visual Studio
 .vscode/*
-.idea/*
-.idea/
+
+# Non Mountea Content
+Content/*/
+!Content/Mountea/*
+
+# Idea
+.idea/**/
+
+# PNG core
+*.png~

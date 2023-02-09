@@ -4,7 +4,7 @@
 #include "Components/ActorInteractorComponentBase.h"
 
 #include "Helpers/ActorInteractionPluginLog.h"
-#if (!UE_BUILD_SHIPPING || WITH_EDITOR)
+#if WITH_EDITOR
 #include "EditorHelper.h"
 #endif
 
@@ -19,7 +19,7 @@ UActorInteractorComponentBase::UActorInteractorComponentBase()
 	DebugSettings.EditorDebugMode = false;
 
 	InteractorState = EInteractorStateV2::EIS_Asleep;
-	DefaultInteractorState = EInteractorStateV2::EIS_Asleep;
+	DefaultInteractorState = EInteractorStateV2::EIS_Awake;
 }
 
 void UActorInteractorComponentBase::BeginPlay()
@@ -157,7 +157,7 @@ void UActorInteractorComponentBase::StartInteraction(const float StartTime, cons
 	if (CanInteract() && ActiveInteractable.GetInterface())
 	{
 		SetState(EInteractorStateV2::EIS_Active);
-		ActiveInteractable->GetOnInteractionStartedHandle().Broadcast(StartTime, InputKey);
+		ActiveInteractable->GetOnInteractionStartedHandle().Broadcast(StartTime, InputKey, this);
 	}
 }
 
@@ -166,7 +166,7 @@ void UActorInteractorComponentBase::StopInteraction(const float StartTime, const
 	if (CanInteract() && ActiveInteractable.GetInterface())
 	{
 		SetState(DefaultInteractorState);
-		ActiveInteractable->GetOnInteractionStoppedHandle().Broadcast(StartTime, InputKey);
+		ActiveInteractable->GetOnInteractionStoppedHandle().Broadcast(StartTime, InputKey, this);
 	}
 }
 

@@ -44,6 +44,9 @@ enum class ETimingComparison : uint8 // TODO: rename, because name is used
 
 class IActorInteractableInterface;
 class IActorInteractorInterface;
+
+struct FDataTableRowHandle;
+
 enum class EInteractableStateV2 : uint8;
 enum class EInteractableLifecycle : uint8;
 
@@ -57,10 +60,10 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_FiveParams(FInteractorTraced, UPrimitiveCompo
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FInteractorOverlapped, UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex, bool, bFromSweep, const FHitResult &, SweepResult);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_FourParams(FInteractorStopOverlap, UPrimitiveComponent*, OverlappedComponent, AActor*, OtherActor, UPrimitiveComponent*, OtherComp, int32, OtherBodyIndex);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractionCompleted, const float&, FinishTime);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInteractionCycleCompleted, const float&, FinishTime, const int32, RemainingLifecycles);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInteractionStarted, const float&, StartTime, const FKey&, PressedKey);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInteractionStopped, const float&, StartTime, const FKey&, PressedKey);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInteractionCompleted, const float&, FinishTime, const TScriptInterface<IActorInteractorInterface>&, CausingInteractor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FInteractionCycleCompleted, const float&, FinishTime, const int32, RemainingLifecycles, const TScriptInterface<IActorInteractorInterface>&, CausingInteractor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FInteractionStarted, const float&, StartTime, const FKey&, PressedKey, const TScriptInterface<IActorInteractorInterface>&, CausingInteractor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FInteractionStopped, const float&, StartTime, const FKey&, PressedKey, const TScriptInterface<IActorInteractorInterface>&, CausingInteractor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FInteractionCanceled);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLifecycleCompleted);
@@ -86,6 +89,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCollisionComponentAdded, const UPri
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHighlightableComponentRemoved, const UMeshComponent*, RemovedHighlightableComp);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FCollisionComponentRemoved, const UPrimitiveComponent*, RemovedCollisionComp);
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableDependencyStarted, const TScriptInterface<IActorInteractableInterface>&, NewMaster);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableDependencyStopped, const TScriptInterface<IActorInteractableInterface>&, FormerMaster);
 
 /**
  * 
@@ -159,25 +164,25 @@ protected:
 	 * Event bound to OnInteractionCompleted.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, Category="Interaction")
-	void OnInteractionCompletedEvent(const float& FinishTime);
+	void OnInteractionCompletedEvent(const float& FinishTime, const TScriptInterface<IActorInteractorInterface>& CausingInteractor);
 
 	/**
 	 * Event called once Interaction Cycle is completed.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, Category="Interaction")
-	void OnInteractionCycleCompletedEvent(const float& CompletedTime, const int32 CyclesRemaining);
+	void OnInteractionCycleCompletedEvent(const float& CompletedTime, const int32 CyclesRemaining, const TScriptInterface<IActorInteractorInterface>& CausingInteractor);
 
 	/**
 	 * Event bound to OnInteractionStarted.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, Category="Interaction")
-	void OnInteractionStartedEvent(const float& StartTime, const FKey& PressedKey);
+	void OnInteractionStartedEvent(const float& StartTime, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor);
 
 	/**
 	 * Event bound to OnInteractionStopped.
 	 */
 	UFUNCTION(BlueprintImplementableEvent, Category="Interaction")
-	void OnInteractionStoppedEvent(const float& TimeStarted, const FKey& PressedKey);
+	void OnInteractionStoppedEvent(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor);
 
 	/**
 	 * Event bound to OnInteractionCanceled.
@@ -201,6 +206,7 @@ protected:
 	
 public:
 
+	virtual bool DoesHaveInteractor() const = 0;
 	virtual bool DoesAutoSetup() const = 0;
 	virtual void ToggleAutoSetup(const ESetupType& NewValue) = 0;
 
@@ -215,10 +221,10 @@ public:
 	virtual void InteractorFound(const TScriptInterface<IActorInteractorInterface>& FoundInteractor) = 0;
 	virtual void InteractorLost(const TScriptInterface<IActorInteractorInterface>& LostInteractor) = 0;
 
-	virtual void InteractionCompleted(const float& TimeCompleted) = 0;
-	virtual void InteractionCycleCompleted(const float& CompletedTime, const int32 CyclesRemaining) = 0;
-	virtual void InteractionStarted(const float& TimeStarted, const FKey& PressedKey) = 0;
-	virtual void InteractionStopped(const float& TimeStarted, const FKey& PressedKey) = 0;
+	virtual void InteractionCompleted(const float& TimeCompleted, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) = 0;
+	virtual void InteractionCycleCompleted(const float& CompletedTime, const int32 CyclesRemaining, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) = 0;
+	virtual void InteractionStarted(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) = 0;
+	virtual void InteractionStopped(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) = 0;
 	virtual void InteractionCanceled() = 0;
 	virtual void InteractionLifecycleCompleted() = 0;
 	virtual void InteractionCooldownCompleted() = 0;
@@ -328,6 +334,11 @@ public:
 	
 	virtual FDataTableRowHandle GetInteractableData() = 0;
 	virtual void SetInteractableData(FDataTableRowHandle NewData) = 0;
+
+	virtual void InteractableDependencyStartedCallback(const TScriptInterface<IActorInteractableInterface>& NewMaster) = 0;
+	virtual void InteractableDependencyStoppedCallback(const TScriptInterface<IActorInteractableInterface>& FormerMaster) = 0;
+
+	virtual void SetDefaults() = 0;
 	
 	virtual FOnInteractableSelected& GetOnInteractableSelectedHandle() = 0;
 	virtual FInteractorFound& GetOnInteractorFoundHandle() = 0;
@@ -342,5 +353,9 @@ public:
 	virtual FInteractionCanceled& GetOnInteractionCanceledHandle() = 0;
 	virtual FInteractableDependencyChanged& GetInteractableDependencyChangedHandle() = 0;
 
+	virtual FInteractableDependencyStarted& GetInteractableDependencyStarted() = 0;
+	virtual FInteractableDependencyStopped& GetInteractableDependencyStopped() = 0;
+
 	virtual FTimerHandle& GetCooldownHandle() = 0;
+	virtual FInteractableStateChanged& GetInteractableStateChanged() = 0;
 };

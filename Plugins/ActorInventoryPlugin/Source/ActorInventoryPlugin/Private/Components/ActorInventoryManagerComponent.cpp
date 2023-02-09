@@ -5,6 +5,7 @@
 #include "Definitions/InventoryItem.h"
 #include "Helpers/ActorInventoryPluginLog.h"
 //#include "Interfaces/ActorInventoryInterface.h"
+#include "Interfaces/ActorInventoryInterface.h"
 #include "Widgets/InventoryWidget.h"
 
 #if WITH_EDITOR
@@ -483,7 +484,7 @@ void UActorInventoryManagerComponent::AddParentCategory(UInventoryCategory* Cate
 	}
 }
 
-void UActorInventoryManagerComponent::PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent)
+void UActorInventoryManagerComponent::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 	const FName PropertyName = (PropertyChangedEvent.MemberProperty != nullptr) ? PropertyChangedEvent.GetPropertyName() : NAME_None;
 
@@ -494,7 +495,7 @@ void UActorInventoryManagerComponent::PostEditChangeChainProperty(FPropertyChang
 		if(!ValidateCategories(true)) return;
 	}
 	
-	Super::PostEditChangeChainProperty(PropertyChangedEvent);
+	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 
 EDataValidationResult UActorInventoryManagerComponent::IsDataValid(TArray<FText>& ValidationErrors)
@@ -508,4 +509,5 @@ EDataValidationResult UActorInventoryManagerComponent::IsDataValid(TArray<FText>
 	}
 	return Super::IsDataValid(ValidationErrors);
 }
+
 #endif

@@ -19,6 +19,8 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnWidgetUpdated);
 /**
  * Actor Interactable Base Component
  *
+ * Abstract base class which contains underlying logic for child components.
+ *
  * Implements ActorInteractableInterface.
  * Networking is not implemented.
  *
@@ -43,6 +45,12 @@ protected:
 #pragma region InteractableFunctions
 	
 public:
+
+	/**
+	 * Return whether this Interactable does have any Interactor.
+	 */
+	UFUNCTION(BlueprintCallable, BlueprintPure, Category="Interaction")
+	virtual bool DoesHaveInteractor() const override;
 
 	/**
 	 * Returns whether this Interactable is being autosetup or not. 
@@ -549,6 +557,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Interaction")
 	virtual void SetComparisonMethod(const ETimingComparison Value) override;
 
+	/**
+	 * Finds default values from Developer settings and tries to set them for this component.
+	 * Will override current settings!
+	 * Will set those values only if not null.
+	 */
+	UFUNCTION(BlueprintCallable, CallInEditor, Category="Interaction", meta=(DisplayName="SetDefaults"))
+	virtual void SetDefaults() override;
+
 #pragma endregion
 
 #pragma region EventFunctions
@@ -592,14 +608,14 @@ protected:
 	 * Calls OnInteractionCompletedEvent
 	 */
 	UFUNCTION(Category="Interaction")
-	virtual void InteractionCompleted(const float& TimeCompleted) override;
+	virtual void InteractionCompleted(const float& TimeCompleted, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
 
 	/**
 	 * Event called once Interaction Cycle is completed.
 	 * Calls OnInteractionCycleCompletedEvent
 	 */
 	UFUNCTION(Category="Interaction")
-	virtual void InteractionCycleCompleted(const float& CompletedTime, const int32 CyclesRemaining) override;
+	virtual void InteractionCycleCompleted(const float& CompletedTime, const int32 CyclesRemaining, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
 
 	/**
 	 * Event called once Interaction Starts.
@@ -607,7 +623,7 @@ protected:
 	 * Calls OnInteractionStartedEvent
 	 */
 	UFUNCTION(Category="Interaction")
-	virtual void InteractionStarted(const float& TimeStarted, const FKey& PressedKey) override;
+	virtual void InteractionStarted(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
 
 	/**
 	 * Event called once Interaction Stops.
@@ -615,7 +631,7 @@ protected:
 	 * Calls OnInteractionStoppedEvent
 	 */
 	UFUNCTION(Category="Interaction")
-	virtual void InteractionStopped(const float& TimeStarted, const FKey& PressedKey) override;
+	virtual void InteractionStopped(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor) override;
 
 	/**
 	 * Event called once Interaction is Canceled.
@@ -846,14 +862,14 @@ protected:
 #pragma region InteractionHelpers
 
 protected:
-
+	
+	virtual void CleanupComponent();
 	virtual void FindAndAddCollisionShapes() override;
 	virtual void FindAndAddHighlightableMeshes() override;
-
+	
 	virtual bool TriggerCooldown() override;
 
-	UFUNCTION()
-	virtual void ToggleWidgetVisibility(const bool IsVisible) override;
+	UFUNCTION()	virtual void ToggleWidgetVisibility(const bool IsVisible) override;
 
 	/**
 	 * Binds Collision Events for specified Primitive Component.
@@ -905,13 +921,14 @@ protected:
 	 */
 	UFUNCTION()
 	void AutoSetup();
-
-	UFUNCTION()
-	void OnCooldownCompletedCallback();
 	
 	bool ValidateInteractable() const;
 
 	virtual void UpdateInteractionWidget();
+	
+	UFUNCTION()	virtual void OnCooldownCompletedCallback();
+	UFUNCTION() virtual void InteractableDependencyStartedCallback(const TScriptInterface<IActorInteractableInterface>& NewMaster) override;
+	UFUNCTION() virtual void InteractableDependencyStoppedCallback(const TScriptInterface<IActorInteractableInterface>& FormerMaster) override;
 
 #pragma endregion
 
@@ -976,7 +993,8 @@ protected:
 #pragma region InteractionEvents
 
 	/**
-	 * Event called once Interactor is selected.
+	 * Event called once Interactor selects any Interactable. Provides info which Interactable has been selected.
+	 * Selected Interactable might differ to this one. In such case, this event calls OnInteractorLost and cancels any interaction which might be in progress.
 	 * Has native C++ implementation.
 	 * Calls OnInteractableSelectedEvent.
 	 */
@@ -984,35 +1002,40 @@ protected:
 	FOnInteractableSelected OnInteractableSelected;
 
 	/**
-	 * Event called once Interactor is found.
+	 * Event called once Interactor is found. Provides info which Interactor is found.
+	 * This event doesn't usually start the interaction, only notifies that this Interactable has found an Interactor.
 	 * Called by OnInteractorFound
 	 */
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category="Interaction")
 	FInteractorFound OnInteractorFound;
 
 	/**
-	 * Event called once Interactor is lost.
-	 * Called by OnInteractorLost
+	 * Event called once Interactor is lost. Provides info which Interactor is lost.
+	 * This event is usually the first one in chain leading to Interaction Canceled.
+	 * Called by OnInteractorLost.
 	 */
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category="Interaction")
 	FInteractorLost OnInteractorLost;
 
 	/**
-	 * Event called once Interaction is completed.
+	 * Event called once Interaction is completed. Provides information which Interactor caused completion.
+	 * This event is the last event in chain.
+	 * Called when Type is Once or after Lifecycles run out.
 	 * Called from OnInteractionCompleted
 	 */
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category="Interaction")
 	FInteractionCompleted OnInteractionCompleted;
 	
 	/**
-	 * Event called once single Interaction Cycle is completed.
+	 * Event called once single Interaction Cycle is completed. Provides information which Interactor caused completion.
 	 * Might be called multiple times, before 'OnInteractionCompleted' is called.
+	 * Never called if Type is Once.
 	 */
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category="Interaction")
 	FInteractionCycleCompleted OnInteractionCycleCompleted;
 
 	/**
-	 * Event called once Interaction Starts.
+	 * Event called once Interaction Starts. 
 	 * Called by OnInteractionStarted
 	 */
 	UPROPERTY(BlueprintCallable, BlueprintAssignable, Category="Interaction")
@@ -1151,6 +1174,10 @@ protected:
 	UPROPERTY(BlueprintAssignable, Category="Interaction")
 	FInteractorChanged OnInteractorChanged;
 
+	FInteractableDependencyStarted InteractableDependencyStarted;
+
+	FInteractableDependencyStopped InteractableDependencyStopped;
+
 #pragma endregion 
 
 #pragma region Handles
@@ -1179,9 +1206,16 @@ protected:
 	{ return OnInteractionCanceled; };
 	virtual FInteractableDependencyChanged& GetInteractableDependencyChangedHandle() override
 	{ return OnInteractableDependencyChanged; };
+	virtual FInteractableDependencyStarted& GetInteractableDependencyStarted() override
+	{ return InteractableDependencyStarted; };
+	virtual FInteractableDependencyStopped& GetInteractableDependencyStopped() override
+	{ return InteractableDependencyStopped; };
 
 	virtual FTimerHandle& GetCooldownHandle() override
 	{ return Timer_Cooldown; };
+
+	virtual FInteractableStateChanged& GetInteractableStateChanged() override
+	{ return OnInteractableStateChanged; };
 	
 	virtual FOnWidgetUpdated& WidgetUpdatedHandle()
 	{ return OnWidgetUpdated; };
@@ -1310,7 +1344,7 @@ protected:
 	/**
 	 * List of Interactable Classes which are ignored
 	 */
-	UPROPERTY(SaveGame, EditAnywhere, Category="Interaction|Optional", meta=(NoResetToDefault, AllowAbstract=false, MustImplement="ActorInteractorInterface", BlueprintBaseOnly))
+	UPROPERTY(SaveGame, EditAnywhere, Category="Interaction|Optional", meta=(NoResetToDefault, AllowAbstract=false, MustImplement="/Script/ActorInteractionPlugin.ActorInteractorInterface", BlueprintBaseOnly))
 	TArray<TSoftClassPtr<UObject>> IgnoredClasses;
 	
 	/**
@@ -1447,6 +1481,13 @@ protected:
 	 */
 	UPROPERTY(SaveGame, VisibleAnywhere, Category="Interaction|Read Only")
 	TArray<UPrimitiveComponent*> CollisionComponents;
+
+	/**
+	 * Cached value which is by default set to Interaction Weight.
+	 * Used when removing Interactable from Dependencies.
+	 */
+	UPROPERTY(VisibleAnywhere, Category="Interaction|Read Only")
+	int32 CachedInteractionWeight;
 	
 	UPROPERTY()
 	FTimerHandle Timer_Interaction;
@@ -1482,6 +1523,8 @@ protected:
 	
 	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
 	virtual EDataValidationResult IsDataValid(TArray<FText>& ValidationErrors) override;
+
+	virtual bool Modify(bool bAlwaysMarkDirty) override;
 
 #endif
 	

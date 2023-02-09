@@ -11,6 +11,8 @@
 
 UActorInteractableComponentHold::UActorInteractableComponentHold()
 {
+	bInteractionHighlight = true;
+	DefaultInteractableState = EInteractableStateV2::EIS_Awake;
 	InteractionPeriod = 3.f;
 	InteractableName = LOCTEXT("InteractableComponentHold", "Hold");
 }
@@ -20,8 +22,10 @@ void UActorInteractableComponentHold::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UActorInteractableComponentHold::InteractionStarted(const float& TimeStarted, const FKey& PressedKey)
+void UActorInteractableComponentHold::InteractionStarted(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor)
 {
+	Super::InteractionStarted(TimeStarted, PressedKey, CausingInteractor);
+	
 	if (CanInteract())
 	{
 		// Force Interaction Period to be at least 0.1s
@@ -39,14 +43,12 @@ void UActorInteractableComponentHold::InteractionStarted(const float& TimeStarte
 			TempInteractionPeriod,
 			false
 		);
-		
-		Super::InteractionStarted(TimeStarted, PressedKey);
 	}
 }
 
-void UActorInteractableComponentHold::InteractionStopped(const float& TimeStarted, const FKey& PressedKey)
+void UActorInteractableComponentHold::InteractionStopped(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor)
 {
-	Super::InteractionStopped(TimeStarted, PressedKey);
+	Super::InteractionStopped(TimeStarted, PressedKey, CausingInteractor);
 }
 
 void UActorInteractableComponentHold::InteractionCanceled()
@@ -73,6 +75,7 @@ void UActorInteractableComponentHold::OnInteractionCompletedCallback()
 {
 	if (!GetWorld())
 	{
+		OnInteractionCanceled.Broadcast();
 		return;
 	}
 
@@ -82,7 +85,7 @@ void UActorInteractableComponentHold::OnInteractionCompletedCallback()
 		if (TriggerCooldown()) return;
 	}
 	
-	OnInteractionCompleted.Broadcast(GetWorld()->GetTimeSeconds());
+	OnInteractionCompleted.Broadcast(GetWorld()->GetTimeSeconds(), GetInteractor());
 }
 
 #undef LOCTEXT_NAMESPACE

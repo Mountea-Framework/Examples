@@ -35,4 +35,4 @@ A best way to describe the usage is to take a look or play the demo build.
 ## Additional Documentation and Acknowledgments
 
 * HDRI used in this repository is by PolyHaven (https://polyhaven.com/)
-* Documentation: https://github.com/Mountea-Framework/ActorInventoryPlugin/wiki 
+* Documentation: -

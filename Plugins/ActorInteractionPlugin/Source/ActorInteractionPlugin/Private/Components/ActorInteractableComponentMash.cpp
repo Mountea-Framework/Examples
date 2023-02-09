@@ -9,6 +9,8 @@
 
 UActorInteractableComponentMash::UActorInteractableComponentMash()
 {
+	bInteractionHighlight = true;
+	DefaultInteractableState = EInteractableStateV2::EIS_Awake;
 	MinMashAmountRequired = 5;
 	KeystrokeTimeThreshold = 1.f;
 	ActualMashAmount = 0;
@@ -26,9 +28,9 @@ void UActorInteractableComponentMash::BeginPlay()
 
 void UActorInteractableComponentMash::InteractionFailed()
 {
-	SetState(EInteractableStateV2::EIS_Awake);
+	SetState(GetDefaultState());
 	
-	CleanUpComponent();
+	CleanupComponent();
 	
 	OnInteractionFailedEvent();
 }
@@ -52,24 +54,26 @@ void UActorInteractableComponentMash::OnInteractionCompletedCallback()
 		if (TriggerCooldown()) return;
 	}
 	
-	OnInteractionCompleted.Broadcast(GetWorld()->GetTimeSeconds());
+	OnInteractionCompleted.Broadcast(GetWorld()->GetTimeSeconds(), GetInteractor());
 }
 
-void UActorInteractableComponentMash::CleanUpComponent()
+void UActorInteractableComponentMash::CleanupComponent()
 {
+	ActualMashAmount = 0;
+	
+	OnInteractableStateChanged.Broadcast(InteractableState);
+	
 	if (GetWorld())
 	{
 		GetWorld()->GetTimerManager().ClearTimer(TimerHandle_Mashed);
 		GetWorld()->GetTimerManager().ClearTimer(Timer_Interaction);
 	}
-
-	ActualMashAmount = 0;
 }
 
-void UActorInteractableComponentMash::InteractionStarted(const float& TimeStarted, const FKey& PressedKey)
+void UActorInteractableComponentMash::InteractionStarted(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor)
 {
-	Super::InteractionStarted(TimeStarted, PressedKey);
-
+	Super::InteractionStarted(TimeStarted, PressedKey, CausingInteractor);
+	
 	if (CanInteract())
 	{
 		if(!GetWorld()->GetTimerManager().IsTimerActive(Timer_Interaction))
@@ -110,13 +114,13 @@ void UActorInteractableComponentMash::InteractionStarted(const float& TimeStarte
 	}
 }
 
-void UActorInteractableComponentMash::InteractionStopped(const float& TimeStarted, const FKey& PressedKey)
+void UActorInteractableComponentMash::InteractionStopped(const float& TimeStarted, const FKey& PressedKey, const TScriptInterface<IActorInteractorInterface>& CausingInteractor)
 {
 	if (GetWorld())
 	{
 		if (!GetWorld()->GetTimerManager().IsTimerActive(TimerHandle_Mashed))
 		{
-			Super::InteractionStopped(TimeStarted, PressedKey);
+			Super::InteractionStopped(TimeStarted, PressedKey, CausingInteractor);
 		}
 	}
 }
@@ -125,21 +129,21 @@ void UActorInteractableComponentMash::InteractionCanceled()
 {
 	Super::InteractionCanceled();
 
-	CleanUpComponent();
+	CleanupComponent();
 }
 
-void UActorInteractableComponentMash::InteractionCompleted(const float& TimeCompleted)
+void UActorInteractableComponentMash::InteractionCompleted(const float& TimeCompleted, const TScriptInterface<IActorInteractorInterface>& CausingInteractor)
 {
 	if (ActualMashAmount >= MinMashAmountRequired)
 	{
-		Super::InteractionCompleted(TimeCompleted);
+		Super::InteractionCompleted(TimeCompleted, CausingInteractor);
 	}
 	else
 	{
 		OnInteractionFailed.Broadcast();
 	}
 
-	CleanUpComponent();
+	CleanupComponent();
 }
 
 int32 UActorInteractableComponentMash::GetMinMashAmountRequired() const

@@ -9,6 +9,10 @@ public class ActorInteractionPluginEditor : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		bEnforceIWYU = true;
+		
+		PrecompileForTargets = PrecompileTargetsType.None;
+        bPrecompile = false;
+        bUsePrecompiled = false;
 
 		PublicDependencyModuleNames.AddRange
 			(
@@ -42,7 +46,17 @@ public class ActorInteractionPluginEditor : ModuleRules
 				"AssetTools",
 				
 				"BlueprintGraph",
-				"Kismet"
+				"Kismet", 
+				
+				"WebBrowser",
+				"EditorStyle",
+				"DeveloperSettings",
+				
+				"MainFrame",
+				"ToolMenus",
+				"InputCore",
+				
+				"UMG"
 			}
 		);
 		
