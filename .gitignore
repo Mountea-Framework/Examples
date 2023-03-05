@@ -85,3 +85,6 @@ Content/*/
 
 # PNG core
 *.png~
+
+# Plugin local configs
+Plugins/*/Config/UpdateConfig.ini

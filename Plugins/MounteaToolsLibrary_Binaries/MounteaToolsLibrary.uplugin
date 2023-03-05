@@ -1,0 +1,30 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.0.0.1",
+	"FriendlyName": "Mountea Tools Library",
+	"Description": "Mountea Tools Library is an open-source list of tools for Unreal everyday usage.",
+	"Category": "Mountea Framework",
+	"CreatedBy": "Dominik Pavlicek",
+	"CreatedByURL": "https://sites.google.com/view/dominikpavlicek/home",
+	"DocsURL": "https://sites.google.com/view/dominikpavlicek/home/documentation",
+	"MarketplaceURL": "",
+	"SupportURL": "https://bit.ly/DominikPavlicek_SupportServer",
+	"EngineVersion": "4.26",
+	"CanContainContent": true,
+	"IsBetaVersion": true,
+	"IsExperimentalVersion": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "MounteaToolsLibrary",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "MounteaToolsLibraryEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}
