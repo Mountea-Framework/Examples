@@ -10,11 +10,11 @@
 	"DocsURL": "https://sites.google.com/view/dominikpavlicek/home/documentation",
 	"MarketplaceURL": "",
 	"SupportURL": "https://bit.ly/DominikPavlicek_SupportServer",
-	"EngineVersion": "4.26",
+	"EngineVersion": "4.26.0",
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"IsExperimentalVersion": true,
-	"Installed": true,
+	"Installed": false,
 	"Modules": [
 		{
 			"Name": "MounteaToolsLibrary",

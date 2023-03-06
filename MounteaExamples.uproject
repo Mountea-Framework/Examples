@@ -7,6 +7,18 @@
 		{
 			"Name": "HDRIBackdrop",
 			"Enabled": true
+		},
+		{
+			"Name": "ActorInteractionPlugin",
+			"Enabled": true
+		},
+		{
+			"Name": "MounteaToolsLibrary",
+			"Enabled": true
+		},
+		{
+			"Name": "MounteaDialogueSystem",
+			"Enabled": true
 		}
 	]
 }
