@@ -1,0 +1,8 @@
+{
+	"BuildId": "14830424",
+	"Modules": 
+	{
+		"MounteaToolsLibrary": "UE4Editor-MounteaToolsLibrary.dll",
+		"MounteaToolsLibraryEditor": "UE4Editor-MounteaToolsLibraryEditor.dll"
+	}
+}
