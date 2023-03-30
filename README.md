@@ -16,9 +16,11 @@ Join support and community Discord!
 ### Compatible Engine Version
 
 ## Legend
-🟩 - Supported
-🟨 - WIP
-🟪 - Deprecated
+Color Code | State
+-------------- | ----
+🟩 | Supported
+🟨 | WIP
+🟪 | Deprecated
 
 ## Suport Table
 Engine Version | Support
