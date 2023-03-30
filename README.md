@@ -22,25 +22,12 @@ Join support and community Discord!
 🟥 - Partially supported
 
 ## Suport Table
-Engine Version | Plugin Version | Support
--------------- | -------------- | ----
-UE 4.26 | 0.0.0.1 | 🟩
-UE 4.27 | - | 🟨
-UE 5.00 | - | 🟨
-UE 5.1 | - | 🟨
-
-### Installation
-
-A step by step guide that will tell you how to get the development environment up and running.
-
-* Download the branch you are interested in
-* Instal the plugin to your Game Project (within /Plugin folder)
-
-## Usage
-
-A best way to describe the usage is to take a look or play the demo build.
-* Video: TBA
-* Build: TBA
+Engine Version | Support
+-------------- | ----
+UE 4.26 | 🟩
+UE 4.27 | 🟩
+UE 5.00 | 🟨
+UE 5.1 | 🟨
 
 ### Branches
 
