@@ -1,0 +1,8 @@
+{
+	"BuildId": "19505902",
+	"Modules": 
+	{
+		"MounteaToolsLibrary": "UnrealEditor-MounteaToolsLibrary.dll",
+		"MounteaToolsLibraryEditor": "UnrealEditor-MounteaToolsLibraryEditor.dll"
+	}
+}

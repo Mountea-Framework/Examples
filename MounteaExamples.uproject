@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.27",
+	"EngineAssociation": "5.0",
 	"Category": "",
 	"Description": "",
 	"Plugins": [
@@ -10,7 +10,8 @@
 		},
 		{
 			"Name": "ActorInteractionPlugin",
-			"Enabled": true
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ca842c00ec0d4db0b3aad17701e1637b"
 		},
 		{
 			"Name": "MounteaToolsLibrary",
@@ -18,7 +19,8 @@
 		},
 		{
 			"Name": "MounteaDialogueSystem",
-			"Enabled": true
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/a8913233ba144e518cffc6a75502971d"
 		}
 	]
 }
