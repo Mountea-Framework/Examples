@@ -19,15 +19,14 @@ Join support and community Discord!
 🟩 - Supported
 🟨 - WIP
 🟪 - Deprecated
-🟥 - Partially supported
 
 ## Suport Table
 Engine Version | Support
 -------------- | ----
 UE 4.26 | 🟩
 UE 4.27 | 🟩
-UE 5.00 | 🟨
-UE 5.1 | 🟨
+UE 5.0 | 🟩
+UE 5.1 | 🟩
 
 ### Branches
 
