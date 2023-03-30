@@ -1,19 +1,26 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.26",
+	"EngineAssociation": "5.1",
 	"Category": "",
 	"Description": "",
-	"Modules": [
-		{
-			"Name": "MounteaExamples",
-			"Type": "Runtime",
-			"LoadingPhase": "Default"
-		}
-	],
 	"Plugins": [
 		{
 			"Name": "HDRIBackdrop",
 			"Enabled": true
+		},
+		{
+			"Name": "ActorInteractionPlugin",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/ca842c00ec0d4db0b3aad17701e1637b"
+		},
+		{
+			"Name": "MounteaToolsLibrary",
+			"Enabled": true
+		},
+		{
+			"Name": "MounteaDialogueSystem",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/a8913233ba144e518cffc6a75502971d"
 		}
 	]
 }
