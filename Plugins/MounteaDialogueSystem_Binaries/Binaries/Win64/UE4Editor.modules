@@ -1,0 +1,8 @@
+{
+	"BuildId": "14830424",
+	"Modules": 
+	{
+		"MounteaDialogueSystem": "UE4Editor-MounteaDialogueSystem.dll",
+		"MounteaDialogueSystemEditor": "UE4Editor-MounteaDialogueSystemEditor.dll"
+	}
+}
