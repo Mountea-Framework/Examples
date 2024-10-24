@@ -1,0 +1,9 @@
+{
+	"BuildId": "27405482",
+	"Modules": 
+	{
+		"MounteaDialogueSystem": "UnrealEditor-MounteaDialogueSystem.dll",
+		"MounteaDialogueSystemDeveloper": "UnrealEditor-MounteaDialogueSystemDeveloper.dll",
+		"MounteaDialogueSystemEditor": "UnrealEditor-MounteaDialogueSystemEditor.dll"
+	}
+}
