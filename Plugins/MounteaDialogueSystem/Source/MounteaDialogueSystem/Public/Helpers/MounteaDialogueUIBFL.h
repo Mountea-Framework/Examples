@@ -15,6 +15,7 @@ struct FDialogueRowData;
 struct FDialogueOptionData;
 struct FDialogueRow;
 struct FWidgetDialogueRow;
+struct FAnchors;
 
 USTRUCT(BlueprintType)
 struct FWidgetAdditionParams

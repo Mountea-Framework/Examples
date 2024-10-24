@@ -18,11 +18,7 @@
 
 bool UMounteaDialogueSystemBFC::IsEditor()
 {
-#if WITH_EDITOR
-	return true;
-#endif
-
-	return false;
+	return GIsEditor && !IsRunningCommandlet();
 }
 
 void UMounteaDialogueSystemBFC::CleanupGraph(const UObject* WorldContextObject, const UMounteaDialogueGraph* GraphToClean)
@@ -663,9 +659,9 @@ UMounteaDialogueGraphNode* UMounteaDialogueSystemBFC::GetFirstChildNode(const UM
 {
 	if (ParentNode == nullptr) return nullptr;
 
-	if (ParentNode->GetChildrenNodes().IsValidIndex(0))
+	if (ParentNode->GetChildrenNodes().IsValidIndex(0) && ParentNode->GetChildrenNodes()[0]->CanStartNode())
 	{
-		return ParentNode->GetChildrenNodes()[0]->CanStartNode() ? ParentNode->GetChildrenNodes()[0] : nullptr;
+		return ParentNode->GetChildrenNodes()[0];
 	}
 
 	return nullptr;

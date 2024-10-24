@@ -272,8 +272,14 @@ void FAssetEditor_MounteaDialogueGraph::RegisterToolbarTab(const TSharedRef<FTab
 
 void FAssetEditor_MounteaDialogueGraph::AddReferencedObjects(FReferenceCollector& Collector)
 {
-	Collector.AddReferencedObject(EditingGraph);
-	Collector.AddReferencedObject(EditingGraph->EdGraph);
+	TObjectPtr<UMounteaDialogueGraph> graphObject = EditingGraph;
+	Collector.AddReferencedObject(graphObject);
+
+	if (graphObject)
+	{
+		TObjectPtr<UEdGraph> graphEditorObject = graphObject->EdGraph;
+		Collector.AddReferencedObject(graphEditorObject);
+	}
 }
 
 FString FAssetEditor_MounteaDialogueGraph::GetReferencerName() const
@@ -440,7 +446,7 @@ void FAssetEditor_MounteaDialogueGraph::CreateEdGraph()
 					for (const auto& JsonValue : JsonArray)
 					{
 						const TSharedPtr<FJsonObject> NodeObject = JsonValue->AsObject();
-						const FGuid NodeObjectGuid = FGuid(NodeObject->GetStringField("id"));
+						const FGuid NodeObjectGuid = FGuid(NodeObject->GetStringField((TEXT("id"))));
 						if (NodeObjectGuid == Node->GetNodeGUID())
 						{
 							FoundNode = NodeObject;
@@ -450,9 +456,9 @@ void FAssetEditor_MounteaDialogueGraph::CreateEdGraph()
 
 					if (FoundNode.IsValid())
 					{
-						TSharedPtr<FJsonObject> PositionObject = FoundNode->GetObjectField("position");
-						const float X = PositionObject->GetNumberField("x");
-						const float Y = PositionObject->GetNumberField("y");
+						TSharedPtr<FJsonObject> PositionObject = FoundNode->GetObjectField(TEXT("position"));
+						const float X = PositionObject->GetNumberField(TEXT("x"));
+						const float Y = PositionObject->GetNumberField(TEXT("y"));
 
 						DummyNewNode->NodePosX = X;
 						DummyNewNode->NodePosY = Y;
@@ -1096,7 +1102,7 @@ void FAssetEditor_MounteaDialogueGraph::AutoArrange()
 	}
 	else
 	{
-		EditorLOG_INFO(TEXT("[AutoArrange] LayoutStrategy is null."));
+		EditorLOG_ERROR(TEXT("[AutoArrange] LayoutStrategy is null."));
 	}
 }
 
