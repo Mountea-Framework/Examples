@@ -1,9 +1,0 @@
-{
-	"BuildId": "23058290",
-	"Modules": 
-	{
-		"ActorInteractionPlugin": "UnrealEditor-ActorInteractionPlugin.dll",
-		"ActorInteractionPluginEditor": "UnrealEditor-ActorInteractionPluginEditor.dll",
-		"InteractionEditorNotifications": "UnrealEditor-InteractionEditorNotifications.dll"
-	}
-}
