@@ -331,8 +331,12 @@ private:
 	
 protected:
 	
+	DECLARE_EVENT(UActorInteractorComponentBase, FRequestInteractorEditorDefaults);
+	FRequestInteractorEditorDefaults RequestEditorDefaults;
+	virtual void ResetDefaults();
+	
 	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
-	virtual EDataValidationResult IsDataValid(TArray<FText>& ValidationErrors) override;
+	virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
 
 #endif
 
