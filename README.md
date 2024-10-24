@@ -21,18 +21,22 @@ Color Code | State
 🟨 | WIP
 🟪 | Deprecated
 
-## Suport Table
+## Support Table
 Engine Version | Support
 -------------- | ----
-UE 4.26 | 🟩
-UE 4.27 | 🟩
-UE 5.0 | 🟩
+UE 4.26 | 🟪
+UE 4.27 | 🟪
+UE 5.0 | 🟪
 UE 5.1 | 🟩
+UE 5.2 | 🟩
+UE 5.3 | 🟩
+UE 5.4 | 🟩
+UE 5.5 | 🟨
 
 ### Branches
 
-* Master: A development branch, should be always relevant to most current Engine version
-* Version Branch: A stable branch for specified Engine version
+* Master: A development branch, that should always be relevant to the most current Engine version
+* Version Branch: A stable branch for a specified Engine version
 * Version_Dev Branch: A development branch for specified Engine version
 
 ## Additional Documentation and Acknowledgments
