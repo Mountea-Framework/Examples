@@ -1,8 +1,8 @@
 # Examples
 In this repository, you will be able to see examples how to use every single of our plugins.
 
-![UE](https://img.shields.io/badge/supported-4.26%2B-green)
-![License](https://img.shields.io/github/license/Mountea-Framework/ActorInteractionPlugin)
+![UE](https://img.shields.io/badge/supported-5.1%2B-green)
+[![License](https://img.shields.io/github/license/Mountea-Framework/ActorInteractionPlugin)](https://github.com/Mountea-Framework/Examples/blob/master/LICENSE.txt)
 [![YouTube](https://img.shields.io/badge/YouTube-Subscribe-red?style=flat&logo=youtube)](https://www.youtube.com/@mounteaframework)
 [![Discord](https://badgen.net/discord/online-members/2vXWEEN?label=Discord&logo=discord&logoColor=ffffff&color=7389D8)](https://discord.com/invite/2vXWEEN)
 [![Discord](https://badgen.net/discord/members/2vXWEEN?label=Discord&logo=discord&logoColor=ffffff&color=7389D8)](https://discord.com/invite/2vXWEEN)
