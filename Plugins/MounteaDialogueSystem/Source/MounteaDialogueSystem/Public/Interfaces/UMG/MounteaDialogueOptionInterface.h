@@ -6,8 +6,6 @@
 #include "UObject/Interface.h"
 #include "MounteaDialogueOptionInterface.generated.h"
 
-class UTexture;
-
 #define LOCTEXT_NAMESPACE "DialogueOption"
 
 struct FDialogueRow;

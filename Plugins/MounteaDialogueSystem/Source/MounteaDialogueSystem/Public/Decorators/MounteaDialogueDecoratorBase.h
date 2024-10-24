@@ -10,6 +10,8 @@
 
 class IMounteaDialogueManagerInterface;
 class IMounteaDialogueParticipantInterface;
+class UMounteaDialogueGraph;
+class UMounteaDialogueGraphNode;
 
 UENUM(BlueprintType)
 enum class EDecoratorState : uint8
@@ -232,10 +234,10 @@ public:
 	
 protected:
 
-	UPROPERTY(BlueprintReadOnly, Category="Private")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Private")
 	FText DecoratorName;
 
-	UPROPERTY(BlueprintReadOnly, Category="Private")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Private")
 	TSet<TSoftClassPtr<UMounteaDialogueGraphNode>> BlacklistedNodes;
 
 	UPROPERTY()

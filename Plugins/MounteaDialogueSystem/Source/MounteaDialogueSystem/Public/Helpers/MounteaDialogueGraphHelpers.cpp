@@ -1,7 +1,6 @@
 // Copyright Dominik Pavlicek 2022. All Rights Reserved.
 
 #include "Helpers/MounteaDialogueGraphHelpers.h"
-#include "Engine/World.h"
 
 #include "MounteaDialogueSystemSettings.h"
 #include "Kismet/KismetSystemLibrary.h"

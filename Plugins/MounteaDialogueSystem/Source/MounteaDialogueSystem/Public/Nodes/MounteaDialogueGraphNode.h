@@ -8,6 +8,7 @@
 #include "MounteaDialogueGraphNode.generated.h"
 
 class IMounteaDialogueManagerInterface;
+class UMounteaDialogueGraph;
 class UMounteaDialogueGraphEdge;
 
 /**
@@ -59,7 +60,7 @@ public:
 	 * Pointer to the parent dialogue graph of this node.
 	 */
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Private", meta=(DisplayThumbnail=false))
-	class UMounteaDialogueGraph* Graph;
+	UMounteaDialogueGraph* Graph;
 	
 	/**
 	 * Temporary NodeIndex.
@@ -474,7 +475,7 @@ public:
 	virtual bool CanCreateConnection(UMounteaDialogueGraphNode* Other, enum EEdGraphPinDirection Direction, FText& ErrorMessage);
 
 	// Validation function responsible for generating user friendly validation messages
-	virtual bool ValidateNode(FDataValidationContext& Context, const bool RichFormat) const;
+	virtual bool ValidateNode(TArray<FText>& ValidationsMessages, const bool RichFormat);
 
 	// Once Node is pasted, this function is called
 	virtual void OnPasted();

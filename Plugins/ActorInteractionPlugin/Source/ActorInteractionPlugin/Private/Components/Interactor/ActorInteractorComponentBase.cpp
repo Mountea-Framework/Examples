@@ -2,28 +2,19 @@
 
 
 #include "Components/Interactor/ActorInteractorComponentBase.h"
-#include "Components/MeshComponent.h"
+
+#include "Helpers/ActorInteractionPluginLog.h"
+
 
 #if WITH_EDITOR
-
 #include "EditorHelper.h"
-#include "Misc/DataValidation.h"
-
 #endif
 
 #include "Helpers/ActorInteractionFunctionLibrary.h"
 #include "Helpers/InteractionHelpers.h"
 #include "Helpers/MounteaInteractionSystemBFL.h"
-#include "Helpers/ActorInteractionPluginLog.h"
-
 #include "Interfaces/ActorInteractableInterface.h"
-
-#include "GameFramework/Actor.h"
-#include "Engine/HitResult.h"
-#include "Engine/World.h"
-
 #include "Net/UnrealNetwork.h"
-#include "Net/Core/PushModel/PushModel.h"
 
 UActorInteractorComponentBase::UActorInteractorComponentBase() :
 		DebugSettings(false),
@@ -40,14 +31,7 @@ UActorInteractorComponentBase::UActorInteractorComponentBase() :
 	PrimaryComponentTick.bStartWithTickEnabled = false;
 
 	ComponentTags.Add(FName("Mountea"));
-	ComponentTags.Add(FName("Interaction"));
-
-#if WITH_EDITOR || WITH_EDITORONLY_DATA
-	if (GIsEditor && !GIsPlayInEditorWorld)
-	{
-		RequestEditorDefaults.AddUObject(this, &UActorInteractorComponentBase::ResetDefaults);
-	}
-#endif
+	ComponentTags.Add(FName("Interaction"));	
 }
 
 void UActorInteractorComponentBase::BeginPlay()
@@ -70,7 +54,7 @@ void UActorInteractorComponentBase::BeginPlay()
 		Execute_AddIgnoredActor(this, GetOwner());
 
 		Execute_SetState(this, DefaultInteractorState);
-	}	
+	}
 }
 
 FString UActorInteractorComponentBase::ToString_Implementation() const
@@ -1045,11 +1029,6 @@ void UActorInteractorComponentBase::SetState_Server_Implementation(const EIntera
 
 #if WITH_EDITOR
 
-void UActorInteractorComponentBase::ResetDefaults()
-{
-	Execute_SetDefaults(this);
-}
-
 void UActorInteractorComponentBase::PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent)
 {
 	Super::PostEditChangeChainProperty(PropertyChangedEvent);
@@ -1090,9 +1069,9 @@ void UActorInteractorComponentBase::PostEditChangeChainProperty(FPropertyChanged
 	}
 }
 
-EDataValidationResult UActorInteractorComponentBase::IsDataValid(FDataValidationContext& Context) const
+EDataValidationResult UActorInteractorComponentBase::IsDataValid(TArray<FText>& ValidationErrors)
 {
-	const auto DefaultValue = Super::IsDataValid(Context);
+	const auto DefaultValue = Super::IsDataValid(ValidationErrors);
 	bool bAnyError = false;
 
 	FString InteractorName = GetName();
@@ -1118,21 +1097,13 @@ EDataValidationResult UActorInteractorComponentBase::IsDataValid(FDataValidation
 	{
 		const FText ErrorMessage = FText::FromString
 		(
-			InteractorName.Append(TEXT(": DefaultInteractorState cannot be ")).Append(GetEnumValueAsString("EInteractorStateV2", DefaultInteractorState)).Append(TEXT("!"))
+			InteractorName.Append(TEXT(": DefaultInteractorState cannot be")).Append(GetEnumValueAsString("EInteractorStateV2", DefaultInteractorState)).Append(TEXT("!"))
 		);
+
+		DefaultInteractorState = EInteractorStateV2::EIS_Awake;
 		
-		Context.AddError(ErrorMessage);
+		ValidationErrors.Add(ErrorMessage);
 		bAnyError = true;
-	}
-
-	if (bAnyError && RequestEditorDefaults.IsBound())
-	{
-		RequestEditorDefaults.Broadcast();
-	}
-
-	if (bAnyError)
-	{
-		Context.AddWarning(FText::FromString("Interactable failed to Validate. `SetDefaults` has been called. Some settings might have been overriden by default values!"));
 	}
 	
 	return bAnyError ? EDataValidationResult::Invalid : DefaultValue;

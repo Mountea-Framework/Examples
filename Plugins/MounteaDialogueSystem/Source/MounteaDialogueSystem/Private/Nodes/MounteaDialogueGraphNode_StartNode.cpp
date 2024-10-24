@@ -3,8 +3,6 @@
 
 #include "Nodes/MounteaDialogueGraphNode_StartNode.h"
 
-#include "Misc/DataValidation.h"
-
 #define LOCTEXT_NAMESPACE "MounteaDialogueGraphNode_StartNode"
 
 UMounteaDialogueGraphNode_StartNode::UMounteaDialogueGraphNode_StartNode()
@@ -43,9 +41,9 @@ FText UMounteaDialogueGraphNode_StartNode::GetNodeCategory_Implementation() cons
 	return Super::GetNodeCategory_Implementation();
 }
 
-bool UMounteaDialogueGraphNode_StartNode::ValidateNode(FDataValidationContext& Context, const bool RichFormat) const
+bool UMounteaDialogueGraphNode_StartNode::ValidateNode(TArray<FText>& ValidationsMessages, const bool RichFormat)
 {
-	bool bResult = Super::ValidateNode(Context, RichFormat);
+	bool bResult = Super::ValidateNode(ValidationsMessages, RichFormat);
 
 	if (ChildrenNodes.Num() == 0)
 	{
@@ -62,7 +60,7 @@ bool UMounteaDialogueGraphNode_StartNode::ValidateNode(FDataValidationContext& C
 		FString(NodeTitle.ToString()).
 		Append(": Does not have any Children Nodes!");
 		
-		Context.AddError(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
+		ValidationsMessages.Add(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
 	}
 
 	if (ChildrenNodes.Num() > 1)
@@ -80,7 +78,7 @@ bool UMounteaDialogueGraphNode_StartNode::ValidateNode(FDataValidationContext& C
 		FString(NodeTitle.ToString()).
 		Append(": Does have more than 1 Child Node. This version can utilize only first Child Node from Start Node!");
 		
-		Context.AddError(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
+		ValidationsMessages.Add(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
 	}
 
 	return bResult;

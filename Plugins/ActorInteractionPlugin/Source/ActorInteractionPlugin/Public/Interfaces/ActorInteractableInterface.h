@@ -20,8 +20,6 @@ class IActorInteractorInterface;
 
 class UInputAction;
 
-class UMeshComponent;
-
 struct FDataTableRowHandle;
 
 enum class EInteractableStateV2 : uint8;
@@ -75,7 +73,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableDependencyStopped, cons
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FInteractableWidgetVisibilityChanged, const bool, bIsVisible);
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FInteractionDeviceChanged, const ECommonInputType, DeviceType, const FName&, DeviceName);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FInteractionDeviceChanged, const ECommonInputType, DeviceType, const FName&, DeviceName, const FString&, DeviceHardwareName);
 /**
  * 
  */
@@ -340,7 +338,7 @@ public:
 	 * Optimized request for Interactables.
 	 * Can be overridden in C++ for specific class needs.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	bool CanInteract() const;
 	virtual bool CanInteract_Implementation() const = 0;
 
@@ -348,7 +346,7 @@ public:
 	 * Returns whether Interaction can be processed.
 	 * Return True if is Awaken and does not have any Interactor yet.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	bool CanBeTriggered() const;
 	virtual bool CanBeTriggered_Implementation() const = 0;
 
@@ -356,14 +354,14 @@ public:
 	 * Returns whether Interaction is in process.
 	 * Return True if is Active.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	bool IsInteracting() const;
 	virtual bool IsInteracting_Implementation() const = 0;
 
 	/**
 	 * Returns Default Interactable State.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	EInteractableStateV2 GetDefaultState() const;
 	virtual EInteractableStateV2 GetDefaultState_Implementation() const = 0;
 
@@ -379,7 +377,7 @@ public:
 	/**
 	 * Returns State of Interactable.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	EInteractableStateV2 GetState() const;
 	virtual EInteractableStateV2 GetState_Implementation() const = 0;
 
@@ -414,14 +412,14 @@ public:
 	/**
 	 * Returns Interaction Progress.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	float GetInteractionProgress() const;
 	virtual float GetInteractionProgress_Implementation() const = 0;
 
 	/**
 	 * Returns Interaction Period.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	float GetInteractionPeriod() const;
 	virtual float GetInteractionPeriod_Implementation() const = 0;
 
@@ -442,7 +440,7 @@ public:
 	 * Returns Interactor which is interacting with this Interactable.
 	 * If no Interactor, will return nullptr.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TScriptInterface<IActorInteractorInterface> GetInteractor() const;
 	virtual TScriptInterface<IActorInteractorInterface> GetInteractor_Implementation() const = 0;
 
@@ -459,7 +457,7 @@ public:
 	/**
 	 * Returns Interactable Weight.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	int32 GetInteractableWeight() const;
 	virtual int32 GetInteractableWeight_Implementation() const = 0;
 
@@ -478,7 +476,7 @@ public:
 	 * This will be most likely same as the GetOwner, however, there is a way to override this default value.
 	 * Useful for very complex interactions.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	AActor* GetInteractableOwner() const;
 	virtual AActor* GetInteractableOwner_Implementation() const = 0;
 
@@ -486,7 +484,7 @@ public:
 	 * Returns Collision Channel.
 	 * Both Object and Trace Channels are allowed.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	ECollisionChannel GetCollisionChannel() const;
 	virtual ECollisionChannel GetCollisionChannel_Implementation() const = 0;
 
@@ -505,7 +503,7 @@ public:
 	/**
 	 * Returns Lifecycle Mode.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	EInteractableLifecycle GetLifecycleMode() const;
 	virtual EInteractableLifecycle GetLifecycleMode_Implementation() const = 0;
 
@@ -520,7 +518,7 @@ public:
 	/**
 	 * Returns Lifecycle Count of this Interactable.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	int32 GetLifecycleCount() const;
 	virtual int32 GetLifecycleCount_Implementation() const = 0;
 
@@ -535,14 +533,14 @@ public:
 	/**
 	 * Returns how many Lifecycles remain.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	int32 GetRemainingLifecycleCount() const;
 	virtual int32 GetRemainingLifecycleCount_Implementation() const = 0;
 
 	/**
 	 * Returns Cooldown Period in seconds.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	float GetCooldownPeriod() const;
 	virtual float GetCooldownPeriod_Implementation() const = 0;
 
@@ -557,7 +555,7 @@ public:
 	/**
 	 * Returns value of Comparison Method.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	ETimingComparison GetComparisonMethod() const;
 	virtual ETimingComparison GetComparisonMethod_Implementation() const = 0;
 
@@ -598,7 +596,7 @@ public:
 	 * All dependencies are affected by Interaction State of this Interactable. 
 	 * Interaction Dependency is Suppressed while its Master is Active.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TArray<TScriptInterface<IActorInteractableInterface>> GetInteractionDependencies() const;
 	virtual TArray<TScriptInterface<IActorInteractableInterface>> GetInteractionDependencies_Implementation() const = 0;
 
@@ -631,7 +629,7 @@ public:
 	 * Returns list of ignored classes.
 	 * Those are classes which will be ignored for interaction events and won't trigger them.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TArray<TSoftClassPtr<UObject>> GetIgnoredClasses() const;
 	virtual TArray<TSoftClassPtr<UObject>> GetIgnoredClasses_Implementation() const = 0;
 
@@ -683,7 +681,7 @@ public:
 	 * Returns all Collision Components.
 	 * Collision Components might be both Shape Components (Box Collision etc.) or Mesh Components (Static Mesh etc.).
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TArray<UPrimitiveComponent*> GetCollisionComponents() const;
 	virtual TArray<UPrimitiveComponent*> GetCollisionComponents_Implementation() const = 0;
 
@@ -727,7 +725,7 @@ public:
 	 * Returns array of Highlightable Components.
 	 * Collision Components are Mesh Components.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TArray<UMeshComponent*> GetHighlightableComponents() const;
 	virtual TArray<UMeshComponent*> GetHighlightableComponents_Implementation()  const = 0;
 
@@ -772,21 +770,21 @@ public:
 	/**
 	 * Returns all Collision Overrides.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TArray<FName> GetCollisionOverrides() const;
 	virtual TArray<FName> GetCollisionOverrides_Implementation() const = 0;
 
 	/**
 	 * Returns all Highlightable Overrides.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	TArray<FName> GetHighlightableOverrides() const;
 	virtual TArray<FName> GetHighlightableOverrides_Implementation() const = 0;
 
 	/**
 	 * Returns Interactable Name.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	FText GetInteractableName() const;
 	virtual FText GetInteractableName_Implementation() const = 0;
 
@@ -890,7 +888,7 @@ public:
 	/**
 	 * Return Highlightable Type of this Interactable Component.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	EHighlightType GetHighlightType() const;
 	virtual EHighlightType GetHighlightType_Implementation() const = 0;
 
@@ -905,7 +903,7 @@ public:
 	/**
 	 * Returns Highlight Material if any specified.
 	 */
-	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, BlueprintPure, Category="Mountea|Interaction|Interactable")
 	UMaterialInterface* GetHighlightMaterial() const;
 	virtual UMaterialInterface* GetHighlightMaterial_Implementation() const = 0;
 
@@ -1034,8 +1032,8 @@ public:
 	virtual FString ToString_Implementation() const = 0;
 
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category="Mountea|Interaction|Interactable")
-	void OnInputDeviceChanged(const ECommonInputType DeviceType, const FName& DeviceName);
-	virtual void OnInputDeviceChanged_Implementation(const ECommonInputType DeviceType, const FName& DeviceName) =0;
+	void OnInputDeviceChanged(const ECommonInputType DeviceType, const FName& DeviceName, const FString& DeviceHardwareName);
+	virtual void OnInputDeviceChanged_Implementation(const ECommonInputType DeviceType, const FName& DeviceName, const FString& DeviceHardwareName) =0;
 	
 	
 	virtual FOnInteractableSelected& GetOnInteractableSelectedHandle() = 0;

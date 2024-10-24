@@ -1,7 +1,7 @@
 // All rights reserved Dominik Pavlicek 2023
 
 #include "Decorators/MounteaDialogueDecoratorBase.h"
-#include "Graph/MounteaDialogueGraph.h"
+
 #include "Helpers/MounteaDialogueGraphHelpers.h"
 #include "Interfaces/MounteaDialogueManagerInterface.h"
 #include "Nodes/MounteaDialogueGraphNode.h"
@@ -16,9 +16,8 @@ UMounteaDialogueDecoratorBase::UMounteaDialogueDecoratorBase()
 {
 #if WITH_EDITORONLY_DATA
 	DecoratorName = GetClass()->GetDisplayNameText();
-#else
+#endif
 	DecoratorName = FText::FromString(GetName());
-#endif	
 }
 
 void UMounteaDialogueDecoratorBase::InitializeDecorator_Implementation(UWorld* World, const TScriptInterface<IMounteaDialogueParticipantInterface>& OwningParticipant, const TScriptInterface<IMounteaDialogueManagerInterface>& NewOwningManager)

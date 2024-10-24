@@ -5,7 +5,6 @@
 
 #include "Data/MounteaDialogueContext.h"
 #include "Helpers/MounteaDialogueSystemBFC.h"
-#include "Misc/DataValidation.h"
 #include "Nodes/MounteaDialogueGraphNode_CompleteNode.h"
 #include "Nodes/MounteaDialogueGraphNode_StartNode.h"
 
@@ -71,9 +70,9 @@ FText UMounteaDialogueGraphNode_ReturnToNode::GetNodeCategory_Implementation() c
 	return LOCTEXT("MounteaDialogueGraphNode_ReturnToNodeCategory", "Utility Nodes");
 }
 
-bool UMounteaDialogueGraphNode_ReturnToNode::ValidateNode(FDataValidationContext& Context, const bool RichFormat) const
+bool UMounteaDialogueGraphNode_ReturnToNode::ValidateNode(TArray<FText>& ValidationsMessages, const bool RichFormat)
 {
-	bool bSatisfied = Super::ValidateNode(Context, RichFormat);
+	bool bSatisfied = Super::ValidateNode(ValidationsMessages, RichFormat);
 
 	if (ParentNodes.Num() > 0)
 	{
@@ -94,7 +93,7 @@ bool UMounteaDialogueGraphNode_ReturnToNode::ValidateNode(FDataValidationContext
 				FString(NodeTitle.ToString()).
 				Append(": This node expects to be only output from its Parent Node(s)!");
 	
-				Context.AddError(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
+				ValidationsMessages.Add(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
 			}
 		}
 	}
@@ -114,7 +113,7 @@ bool UMounteaDialogueGraphNode_ReturnToNode::ValidateNode(FDataValidationContext
 		FString(NodeTitle.ToString()).
 		Append(": Selected Node is not Valid!");
 	
-		Context.AddError(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
+		ValidationsMessages.Add(FText::FromString(RichFormat ? RichTextReturn : TextReturn));
 	}
 
 	return bSatisfied;

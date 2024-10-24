@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "Widgets/Layout/Anchors.h"
-#include "Layout/Margin.h"
 #include "MounteaDialogueUIBFL.generated.h"
 
 class UMounteaDialogueGraphNode;
@@ -15,7 +14,6 @@ struct FDialogueRowData;
 struct FDialogueOptionData;
 struct FDialogueRow;
 struct FWidgetDialogueRow;
-struct FAnchors;
 
 USTRUCT(BlueprintType)
 struct FWidgetAdditionParams

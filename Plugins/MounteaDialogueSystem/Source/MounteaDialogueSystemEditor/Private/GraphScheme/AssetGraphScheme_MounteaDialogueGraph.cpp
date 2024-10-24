@@ -124,10 +124,7 @@ UEdGraphNode* FAssetSchemaAction_MounteaDialogueGraph_NewNode::PerformAction(UEd
 void FAssetSchemaAction_MounteaDialogueGraph_NewNode::AddReferencedObjects(FReferenceCollector& Collector)
 {
 	FEdGraphSchemaAction::AddReferencedObjects(Collector);
-	
-	TObjectPtr<UEdNode_MounteaDialogueGraphNode> nodeObject = NodeTemplate;
-	
-	Collector.AddReferencedObject(nodeObject);
+	Collector.AddReferencedObject(NodeTemplate);
 }
 
 UEdGraphNode* FAssetSchemaAction_MounteaDialogueGraph_NewEdge::PerformAction(UEdGraph* ParentGraph, UEdGraphPin* FromPin, const FVector2D Location, bool bSelectNewNode)
@@ -164,8 +161,7 @@ UEdGraphNode* FAssetSchemaAction_MounteaDialogueGraph_NewEdge::PerformAction(UEd
 void FAssetSchemaAction_MounteaDialogueGraph_NewEdge::AddReferencedObjects(FReferenceCollector& Collector)
 {
 	FEdGraphSchemaAction::AddReferencedObjects(Collector);
-	TObjectPtr<UEdNode_MounteaDialogueGraphEdge> nodeObject = NodeTemplate;
-	Collector.AddReferencedObject(nodeObject);
+	Collector.AddReferencedObject(NodeTemplate);
 }
 
 void UAssetGraphScheme_MounteaDialogueGraph::GetBreakLinkToSubMenuActions(UToolMenu* Menu, UEdGraphPin* InGraphPin)

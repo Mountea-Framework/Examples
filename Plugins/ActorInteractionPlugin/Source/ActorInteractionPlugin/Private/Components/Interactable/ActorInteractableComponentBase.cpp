@@ -5,10 +5,7 @@
 #include "Helpers/ActorInteractionPluginLog.h"
 
 #if WITH_EDITOR
-
 #include "EditorHelper.h"
-#include "Misc/DataValidation.h"
-
 #endif
 
 #include "CommonInputSubsystem.h"
@@ -16,14 +13,12 @@
 
 #include "Components/BillboardComponent.h"
 #include "Components/WidgetComponent.h"
-#include "GameFramework/InputDeviceSubsystem.h"
 
 #include "Helpers/ActorInteractionFunctionLibrary.h"
 #include "Helpers/MounteaInteractionSystemBFL.h"
 
 #include "Interfaces/ActorInteractionWidget.h"
 #include "Interfaces/ActorInteractorInterface.h"
-
 
 #include "Net/UnrealNetwork.h"
 
@@ -1303,7 +1298,7 @@ void UActorInteractableComponentBase::InteractorLost_Implementation(const TScrip
 	
 	GetWorld()->GetTimerManager().ClearTimer(Timer_Interaction);
 	GetWorld()->GetTimerManager().ClearTimer(Timer_ProgressExpiration);
-
+	
 	//GetWorld()->GetTimerManager().ClearTimer(Timer_Cooldown);
 		
 	if (GetOwner() && GetOwner()->HasAuthority())
@@ -2171,26 +2166,29 @@ void UActorInteractableComponentBase::OnInputModeChanged(ECommonInputType Common
 {
 	if (UMounteaInteractionSystemBFL::CanExecuteCosmeticEvents(GetWorld()))
 	{
-		if (!GetWidget())
-		{
-			return;
-		}
-		
-		if (const auto localPlayer = GetWidget()->GetOwningLocalPlayer())
+		if (const auto localPlayer = UMounteaInteractionSystemBFL::FindLocalPlayer(GetOwner()))
 		{
 			if (UCommonInputSubsystem* commonInputSubsystem = UCommonInputSubsystem::Get(localPlayer))
 			{
-				
 				const auto currentInputType = commonInputSubsystem->GetCurrentInputType();
 				const auto currentInputName = commonInputSubsystem->GetCurrentGamepadName();
+
+				FString hardwareDeviceName;
+				FName inputDeviceName;
+				const FInputDeviceScope* DeviceScope = FInputDeviceScope::GetCurrent();
+				if (DeviceScope)
+				{
+					hardwareDeviceName = DeviceScope->HardwareDeviceIdentifier;
+					inputDeviceName = DeviceScope->InputDeviceName;
+				}
 				
-				OnInteractionDeviceChanged.Broadcast(currentInputType, currentInputName);
+				OnInteractionDeviceChanged.Broadcast(currentInputType, currentInputName, hardwareDeviceName);
 			}
 		}
 	}
 }
 
-void UActorInteractableComponentBase::OnInputDeviceChanged_Implementation(const ECommonInputType DeviceType, const FName& DeviceName)
+void UActorInteractableComponentBase::OnInputDeviceChanged_Implementation(const ECommonInputType DeviceType, const FName& DeviceName, const FString& DeviceHardwareName)
 {
 	FString InputTypeString = GetEnumValueAsString<ECommonInputType>("ECommonInputType", DeviceType);
 }
@@ -2211,11 +2209,6 @@ void UActorInteractableComponentBase::SetState_Server_Implementation(const EInte
 
 #if (!UE_BUILD_SHIPPING || WITH_EDITOR)
 #if WITH_EDITOR
-
-void UActorInteractableComponentBase::ResetDefaults()
-{
-	Execute_SetDefaults(this);
-}
 
 void UActorInteractableComponentBase::PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent)
 {
@@ -2348,12 +2341,12 @@ void UActorInteractableComponentBase::PostEditChangeChainProperty(FPropertyChang
 	}
 }
 
-EDataValidationResult UActorInteractableComponentBase::IsDataValid(FDataValidationContext& Context) const
+EDataValidationResult UActorInteractableComponentBase::IsDataValid(TArray<FText>& ValidationErrors)
 {
-	const auto DefaultValue = Super::IsDataValid(Context);
+	const auto DefaultValue = Super::IsDataValid(ValidationErrors);
 	bool bAnyError = false;
 
-	// Validation
+	if (DefaultInteractableState == EInteractableStateV2::EIS_Disabled)
 	{
 		FString interactableName = GetName();
 		{
@@ -2378,10 +2371,12 @@ EDataValidationResult UActorInteractableComponentBase::IsDataValid(FDataValidati
 		{
 			const FText ErrorMessage = FText::FromString
 			(
-				interactableName.Append(TEXT(": DefaultInteractableState cannot be ")).Append(GetEnumValueAsString("EInteractableStateV2", DefaultInteractableState)).Append(TEXT("!"))
+				interactableName.Append(TEXT(": DefaultInteractableState cannot be")).Append(GetEnumValueAsString("EInteractableStateV2", DefaultInteractableState)).Append(TEXT("!"))
 			);
+
+			DefaultInteractableState = EInteractableStateV2::EIS_Awake;
 		
-			Context.AddError(ErrorMessage);
+			ValidationErrors.Add(ErrorMessage);
 			bAnyError = true;
 		}
 
@@ -2391,8 +2386,10 @@ EDataValidationResult UActorInteractableComponentBase::IsDataValid(FDataValidati
 			(
 				interactableName.Append(TEXT(": DefaultInteractableState cannot be lesser than -1!"))
 			);
+
+			InteractionPeriod = -1.f;
 		
-			Context.AddError(ErrorMessage);
+			ValidationErrors.Add(ErrorMessage);
 			bAnyError = true;
 		}
 	
@@ -2402,8 +2399,11 @@ EDataValidationResult UActorInteractableComponentBase::IsDataValid(FDataValidati
 			(
 				interactableName.Append(TEXT(":")).Append(TEXT(" LifecycleCount cannot be %d!"), LifecycleCount)
 			);
+			
+			LifecycleCount = 2.f;
+			RemainingLifecycleCount = LifecycleCount;
 		
-			Context.AddError(ErrorMessage);
+			ValidationErrors.Add(ErrorMessage);
 			bAnyError = true;
 		}
 
@@ -2414,7 +2414,7 @@ EDataValidationResult UActorInteractableComponentBase::IsDataValid(FDataValidati
 				interactableName.Append(TEXT(": Widget Class is NULL!"))
 			);
 
-			Context.AddError(ErrorMessage);
+			ValidationErrors.Add(ErrorMessage);
 			bAnyError = true;
 		}
 		else
@@ -2425,21 +2425,12 @@ EDataValidationResult UActorInteractableComponentBase::IsDataValid(FDataValidati
 				(
 					interactableName.Append(TEXT(" : Widget Class must either implement 'ActorInteractionWidget Interface'!"))
 				);
-				
-				Context.AddError(ErrorMessage);
+
+				SetWidgetClass(nullptr);
+				ValidationErrors.Add(ErrorMessage);
 				bAnyError = true;
 			}
 		}
-	}
-
-	if (bAnyError && RequestEditorDefaults.IsBound())
-	{
-		RequestEditorDefaults.Broadcast();
-	}
-
-	if (bAnyError)
-	{
-		Context.AddWarning(FText::FromString("Interactable failed to Validate. `SetDefaults` has been called. Some settings might have been overriden by default values!"));
 	}
 	
 	return bAnyError ? EDataValidationResult::Invalid : DefaultValue;

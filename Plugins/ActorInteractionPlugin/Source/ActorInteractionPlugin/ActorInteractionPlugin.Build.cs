@@ -8,7 +8,8 @@ public class ActorInteractionPlugin : ModuleRules
 	public ActorInteractionPlugin(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-
+		bEnforceIWYU = true;
+		
 		PublicIncludePaths.AddRange(
 			new string[] {
 				// ... add public include paths required here ...

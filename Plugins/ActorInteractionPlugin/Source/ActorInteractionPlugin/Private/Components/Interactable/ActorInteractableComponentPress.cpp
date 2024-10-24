@@ -4,10 +4,7 @@
 #include "Components/Interactable/ActorInteractableComponentPress.h"
 
 #if WITH_EDITOR
-
 #include "EditorHelper.h"
-#include "Misc/DataValidation.h"
-
 #endif
 
 #define LOCTEXT_NAMESPACE "InteractableComponentPress"
@@ -90,9 +87,9 @@ void UActorInteractableComponentPress::PostEditChangeChainProperty(FPropertyChan
 	}
 }
 
-EDataValidationResult UActorInteractableComponentPress::IsDataValid(FDataValidationContext& Context) const
+EDataValidationResult UActorInteractableComponentPress::IsDataValid(TArray<FText>& ValidationErrors)
 {
-	const EDataValidationResult SuperResult = Super::IsDataValid(Context);
+	const EDataValidationResult SuperResult = Super::IsDataValid(ValidationErrors);
 
 	bool bAnyError = SuperResult == EDataValidationResult::Invalid;
 	
@@ -113,21 +110,18 @@ EDataValidationResult UActorInteractableComponentPress::IsDataValid(FDataValidat
 
 	if (!FMath::IsNearlyEqual(InteractionPeriod, -1.f))
 	{
+		InteractionPeriod = -1.f;
+
 		const FText ErrorMessage = FText::FromString
 		(
-			interactableName.Append(TEXT(": InteractionPeriod must be -1.f!"))
+			interactableName.Append(TEXT(": Widget Class is NULL!"))
 		);
 
-		Context.AddError(ErrorMessage);
+		ValidationErrors.Add(ErrorMessage);
 		bAnyError = true;
 	}
 
-	if (bAnyError && RequestEditorDefaults.IsBound())
-	{
-		RequestEditorDefaults.Broadcast();
-	}
-
-	return bAnyError ? EDataValidationResult::Invalid : SuperResult;
+	return bAnyError ? EDataValidationResult::Invalid : EDataValidationResult::Valid;
 }
 
 #endif

@@ -8,9 +8,6 @@
 
 struct FDialogueRowData;
 struct FDialogueRow;
-class UTexture;
-
-class UTexture;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnTypeWriterEffectChanged, bool, bEnabled);
 
@@ -75,12 +72,12 @@ public:
 	bool operator==(const FWidgetDialogueRow& Other) const
 	{
 		return
-		Other.RowGuid == RowGuid	&&
+		Other.RowGuid == RowGuid												&&
 		Other.DialogueRowParticipantName.EqualTo(DialogueRowParticipantName)	&&
-		Other.DialogueRowTitle.EqualTo(DialogueRowTitle)	&&
-		Other.DialogueRowBody.EqualTo(DialogueRowBody)	&&
-		Other.UIRowID == UIRowID	&&
-		FMath::IsNearlyEqual(Other.RowDuration, RowDuration)	&&
+		Other.DialogueRowTitle.EqualTo(DialogueRowTitle)						&&
+		Other.DialogueRowBody.EqualTo(DialogueRowBody)							&&
+		Other.UIRowID == UIRowID												&&
+		FMath::IsNearlyEqual(Other.RowDuration, RowDuration)				&&
 		Other.RowOptionalIcon == RowOptionalIcon;
 	}
 	

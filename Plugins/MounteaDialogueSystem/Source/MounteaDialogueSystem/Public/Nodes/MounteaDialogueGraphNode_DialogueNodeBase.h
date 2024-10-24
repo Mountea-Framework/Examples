@@ -122,7 +122,7 @@ protected:
 
 #if WITH_EDITOR
 	
-	virtual bool ValidateNode(FDataValidationContext& Context, const bool RichFormat) const override;
+	virtual bool ValidateNode(TArray<FText>& ValidationsMessages, const bool RichFormat) override;
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	virtual FText GetDescription_Implementation() const override;
 	

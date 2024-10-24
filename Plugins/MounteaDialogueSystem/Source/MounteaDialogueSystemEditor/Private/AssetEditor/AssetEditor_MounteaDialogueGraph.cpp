@@ -27,7 +27,6 @@
 #include "Layout/ForceDirectedSolveLayoutStrategy.h"
 #include "Layout/MounteaDialogueGraphLayoutStrategy.h"
 #include "Layout/TreeSolveLayoutStrategy.h"
-#include "Misc/DataValidation.h"
 #include "Nodes/MounteaDialogueGraphNode_StartNode.h"
 #include "Popups/MDSPopup_GraphValidation.h"
 #include "Search/MounteaDialogueSearchUtils.h"
@@ -195,7 +194,7 @@ void FAssetEditor_MounteaDialogueGraph::UnregisterTabSpawners(const TSharedRef<F
 
 bool FAssetEditor_MounteaDialogueGraph::CloseWindow()
 {
-	const bool bSatisfied = FAssetEditorToolkit::CloseWindow(EAssetEditorCloseReason::AssetEditorHostClosed);
+	const bool bSatisfied = FAssetEditorToolkit::CloseWindow();
 
 	if (EditingGraph)
 	{
@@ -272,14 +271,8 @@ void FAssetEditor_MounteaDialogueGraph::RegisterToolbarTab(const TSharedRef<FTab
 
 void FAssetEditor_MounteaDialogueGraph::AddReferencedObjects(FReferenceCollector& Collector)
 {
-	TObjectPtr<UMounteaDialogueGraph> graphObject = EditingGraph;
-	Collector.AddReferencedObject(graphObject);
-
-	if (graphObject)
-	{
-		TObjectPtr<UEdGraph> graphEditorObject = graphObject->EdGraph;
-		Collector.AddReferencedObject(graphEditorObject);
-	}
+	Collector.AddReferencedObject(EditingGraph);
+	Collector.AddReferencedObject(EditingGraph->EdGraph);
 }
 
 FString FAssetEditor_MounteaDialogueGraph::GetReferencerName() const
@@ -446,7 +439,7 @@ void FAssetEditor_MounteaDialogueGraph::CreateEdGraph()
 					for (const auto& JsonValue : JsonArray)
 					{
 						const TSharedPtr<FJsonObject> NodeObject = JsonValue->AsObject();
-						const FGuid NodeObjectGuid = FGuid(NodeObject->GetStringField((TEXT("id"))));
+						const FGuid NodeObjectGuid = FGuid(NodeObject->GetStringField("id"));
 						if (NodeObjectGuid == Node->GetNodeGUID())
 						{
 							FoundNode = NodeObject;
@@ -456,9 +449,9 @@ void FAssetEditor_MounteaDialogueGraph::CreateEdGraph()
 
 					if (FoundNode.IsValid())
 					{
-						TSharedPtr<FJsonObject> PositionObject = FoundNode->GetObjectField(TEXT("position"));
-						const float X = PositionObject->GetNumberField(TEXT("x"));
-						const float Y = PositionObject->GetNumberField(TEXT("y"));
+						TSharedPtr<FJsonObject> PositionObject = FoundNode->GetObjectField("position");
+						const float X = PositionObject->GetNumberField("x");
+						const float Y = PositionObject->GetNumberField("y");
 
 						DummyNewNode->NodePosX = X;
 						DummyNewNode->NodePosY = Y;
@@ -1102,7 +1095,7 @@ void FAssetEditor_MounteaDialogueGraph::AutoArrange()
 	}
 	else
 	{
-		EditorLOG_ERROR(TEXT("[AutoArrange] LayoutStrategy is null."));
+		EditorLOG_INFO(TEXT("[AutoArrange] LayoutStrategy is null."));
 	}
 }
 
@@ -1118,30 +1111,25 @@ void FAssetEditor_MounteaDialogueGraph::ValidateGraph()
 		ValidationWindow->RequestDestroyWindow();
 	}
 
-	const UEdGraph_MounteaDialogueGraph* EdGraph = Cast<UEdGraph_MounteaDialogueGraph>(EditingGraph->EdGraph);
+	UEdGraph_MounteaDialogueGraph* EdGraph = Cast<UEdGraph_MounteaDialogueGraph>(EditingGraph->EdGraph);
 	check(EdGraph != nullptr);
 
 	const FScopedTransaction Transaction(LOCTEXT("MounteaDialogueGraphEditorValidateGraph", "Mountea Dialogue Graph Editor: Validate Graph."));
 
-	const UMounteaDialogueGraph* MounteaGraph = EdGraph->GetMounteaDialogueGraph();
+	UMounteaDialogueGraph* MounteaGraph = EdGraph->GetMounteaDialogueGraph();
 	check(MounteaGraph != nullptr);
-	
-	RebuildMounteaDialogueGraph();
-	
-	FDataValidationContext ValidationContext;
-	if (MounteaGraph->ValidateGraph(ValidationContext, true) == false)
-	{
-		TArray<FText> Errors, Warnings;
-		ValidationContext.SplitIssues(Errors, Warnings);
 
-		TArray<FText> Combined = Errors;
-		Combined.Append(Warnings);
-		
-		ValidationWindow = MDSPopup_GraphValidation::Open(Combined);
+	RebuildMounteaDialogueGraph();
+
+	TArray<FText> ValidationMessages;
+	if (MounteaGraph->ValidateGraph(ValidationMessages, true) == false)
+	{
+		ValidationWindow = MDSPopup_GraphValidation::Open(ValidationMessages);
 	}
 	else
 	{
-		ValidationWindow = MDSPopup_GraphValidation::Open(TArray<FText>());
+		ValidationMessages.Empty();
+		ValidationWindow = MDSPopup_GraphValidation::Open(ValidationMessages);
 	}
 }
 

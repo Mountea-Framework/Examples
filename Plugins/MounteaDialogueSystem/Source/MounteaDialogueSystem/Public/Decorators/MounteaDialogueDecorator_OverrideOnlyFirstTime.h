@@ -6,8 +6,6 @@
 #include "Decorators/MounteaDialogueDecorator_OnlyFirstTime.h"
 #include "MounteaDialogueDecorator_OverrideOnlyFirstTime.generated.h"
 
-class UDataTable;
-
 /**
  *	Mountea Dialogue Decorators
  *
@@ -45,5 +43,13 @@ protected:
 private:
 
 	UFUNCTION()
-	TArray<FName> GetRowNames() const;
+	TArray<FName> GetRowNames() const
+	{
+		if (DataTable)
+		{
+			return DataTable->GetRowNames();
+		}
+
+		return TArray<FName>();
+	}
 };

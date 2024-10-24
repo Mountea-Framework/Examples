@@ -8,6 +8,7 @@
 #include "UObject/Object.h"
 #include "MounteaDialogueContext.generated.h"
 
+struct FDialogueTraversePath;
 class IMounteaDialogueParticipantInterface;
 class UMounteaDialogueGraphNode;
 
@@ -65,7 +66,7 @@ public:
 	 * Keeps info about the Previous Active Node.
 	 */
 	UPROPERTY(/*Replicated, */VisibleAnywhere, BlueprintReadOnly, Category="Mountea|Dialogue")
-	FGuid PreviousActiveNode;
+	FGuid PreviousActiveNode = FGuid::NewGuid();
 	
 	/**
 	 * List of Nodes that can be accessed from Active Node.

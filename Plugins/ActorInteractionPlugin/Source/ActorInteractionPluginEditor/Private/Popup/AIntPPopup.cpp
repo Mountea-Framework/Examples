@@ -138,18 +138,17 @@ void AIntPPopup::Register(const FString& Changelog)
 {
 	const FString PluginDirectory = IPluginManager::Get().FindPlugin(TEXT("ActorInteractionPlugin"))->GetBaseDir();
 	const FString UpdatedConfigFile = PluginDirectory + "/Config/UpdateConfig.ini";
-	FString CurrentPluginVersion = GetPluginVersion().PluginVersionName;	
-	FString NormalizedConfigFilePath = FConfigCacheIni::NormalizeConfigIniPath(UpdatedConfigFile);
+	FString CurrentPluginVersion = GetPluginVersion().PluginVersionName;
 
 	UAIntPPopupConfig* AIntPPopupConfig = GetMutableDefault<UAIntPPopupConfig>();
 
-	if (FPaths::FileExists(NormalizedConfigFilePath))
+	if (FPaths::FileExists(UpdatedConfigFile))
 	{
-		AIntPPopupConfig->LoadConfig(nullptr, *NormalizedConfigFilePath);
+		AIntPPopupConfig->LoadConfig(nullptr, *UpdatedConfigFile);
 	}
 	else
 	{
-		AIntPPopupConfig->SaveConfig(CPF_Config, *NormalizedConfigFilePath);
+		AIntPPopupConfig->SaveConfig(CPF_Config, *UpdatedConfigFile);
 	}
 
 	// Override Plugin Version from GitHub
@@ -164,7 +163,7 @@ void AIntPPopup::Register(const FString& Changelog)
 	if (AIntPPopupConfig->PluginVersionUpdate != CurrentPluginVersion)
 	{
 		AIntPPopupConfig->PluginVersionUpdate = CurrentPluginVersion;
-		AIntPPopupConfig->SaveConfig(CPF_Config, *NormalizedConfigFilePath);
+		AIntPPopupConfig->SaveConfig(CPF_Config, *UpdatedConfigFile);
 
 		Open(Changelog);
 	}

@@ -61,14 +61,4 @@ bool UMounteaDialogueDecorator_OverrideOnlyFirstTime::EvaluateDecorator_Implemen
 	return OwningManager != nullptr;
 }
 
-TArray<FName> UMounteaDialogueDecorator_OverrideOnlyFirstTime::GetRowNames() const
-{
-	if (DataTable)
-	{
-		return DataTable->GetRowNames();
-	}
-
-	return TArray<FName>();
-}
-
 #undef LOCTEXT_NAMESPACE

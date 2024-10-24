@@ -40,7 +40,7 @@ public:
 	UActorInteractableComponentBase();
 
 protected:
-	
+
 	virtual void BeginPlay() override;
 	virtual void InitWidget() override;
 
@@ -174,7 +174,7 @@ public:
 
 	virtual FString ToString_Implementation() const override;
 
-	virtual void OnInputDeviceChanged_Implementation(const ECommonInputType DeviceType, const FName& DeviceName) override;
+	virtual void OnInputDeviceChanged_Implementation(const ECommonInputType DeviceType, const FName& DeviceName, const FString& DeviceHardwareName) override;
 
 #pragma endregion
 
@@ -228,6 +228,7 @@ protected:
 
 	UFUNCTION()
 	virtual void InteractorActionConsumed(UInputAction* ConsumedAction);
+
 	UFUNCTION()
 	void OnInputModeChanged(ECommonInputType CommonInput);
 
@@ -1134,13 +1135,9 @@ private:
 #if (!UE_BUILD_SHIPPING || WITH_EDITOR)
 #if WITH_EDITOR
 protected:
-
-	DECLARE_EVENT(UActorInteractableComponentBase, FRequestEditorDefaults);
-	FRequestEditorDefaults RequestEditorDefaults;
-	virtual void ResetDefaults();
 	
 	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
-	virtual EDataValidationResult IsDataValid(FDataValidationContext& Context) const override;
+	virtual EDataValidationResult IsDataValid(TArray<FText>& ValidationErrors) override;
 
 #endif
 	

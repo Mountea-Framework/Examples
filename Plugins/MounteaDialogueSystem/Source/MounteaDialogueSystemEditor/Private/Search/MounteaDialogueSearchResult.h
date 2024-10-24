@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Ed/EdGraph_MounteaDialogueGraph.h"
 #include "Ed/EdNode_MounteaDialogueGraphNode.h"
-#include "Graph/MounteaDialogueGraph.h"
 #include "Widgets/Views/STreeView.h"
 
 class UMounteaDialogueGraph;
