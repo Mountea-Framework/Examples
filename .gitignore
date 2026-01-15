@@ -209,3 +209,11 @@ crashinfo--*
 # ============================
 *.DS_Store
 *.zip
+
+# ============================
+# Embedded repos
+# ============================
+Plugins/*/.gitignore
+Plugins/*/.gitattributes
+Plugins/*/.github/*
+Plugins/*/.git/*
