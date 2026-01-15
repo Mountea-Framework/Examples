@@ -1,0 +1,122 @@
+/* Button Styles */
+button {
+    text-overflow: ellipsis;
+}
+
+.btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--bg-border);
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    text-overflow: ellipsis;
+    background: var(--bg-light);
+}
+
+.btn:hover:not([disabled]) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.btn-primary {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.btn-primary:hover {
+    border-color: var(--primary-color);
+}
+
+.btn-secondary {
+    border-color: transparent;
+    background-color: transparent;
+}
+/*
+.btn-danger {
+    border-color: var(--danger-color);
+}
+*/
+
+.btn-danger:hover {
+    border-color: var(--danger-color);
+}
+
+.btn-small {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    border-radius: 50% !important;
+    min-width: unset !important;
+    min-height: unset !important;    
+}
+
+.btn-add {
+    border-color: var(--secondary-color);
+}
+
+.btn-floating {
+    border: 1px solid var(--primary-color);
+    padding: 10px 10px;
+    border-radius: 50% !important;
+    font-weight: 500;
+    aspect-ratio: 1/1 !important;
+    height: 3rem !important;
+    width: 3rem !important;
+    min-width: 2.5rem !important;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    background: var(--bg-white-solid);
+}
+
+#addCustomProp {
+    height: 1.75rem !important;
+    width: 1.75rem !important;
+}
+
+#mobileClose,
+#mobileSave,
+#mobileMountea {
+    background: var(--bg-white-solid);
+}
+
+#mobileMountea::after {
+    content: "";
+    display: inline-block;
+    width: 1.75rem;
+    height: 1.75rem;
+    background-image: url('../assets/Mountea_Logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    vertical-align: middle;
+}
+
+.close {
+    font-size: var(--font-size-sm);
+    height: 1.7rem !important;
+    width: 1.7rem !important;
+}
+
+.close-small {
+    font-size: 0.5rem !important;
+    height: 1.65rem !important;
+    width: 1.65rem !important;
+    text-align: center;
+    border: none !important;
+}
+
+.selection-controls .btn-small {
+    border-radius: var(--border-radius-sm) !important;
+    min-width: 8rem !important;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+.generate-guid-btn {
+    margin-top: var(--spacing-xs);
+    align-self: flex-start;
+}

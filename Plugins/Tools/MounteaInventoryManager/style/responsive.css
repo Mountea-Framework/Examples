@@ -1,0 +1,302 @@
+/* Responsive Design */
+
+/* Desktop Styles - 1200px+ */
+@media (min-width: 1200px) {
+    .sidebar {
+        position: fixed;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-color: transparent;        
+    }
+
+    .templates-list {
+        display: flex;
+        padding: var(--spacing-lg);
+        flex-direction: column;
+        flex-wrap: nowrap;
+        align-items: stretch;
+        overflow: hidden;
+    }
+
+    #editor-container {
+        transform: translateX(20rem);
+        margin-right: 20rem;
+        width: 100%;
+    }
+
+    #templatesList {
+        overflow-y: scroll;
+        flex: 1;
+        padding-bottom: 4rem;
+    }
+
+    .selection-controls {
+        position: sticky;
+        overflow: visible;
+    }
+
+    .floating {
+        bottom: 1rem;
+        right: 1rem;
+    }
+}
+
+/* Tablet and Mobile Styles - Below 1200px */
+@media (max-width: 1200px) {
+    .main-content {
+        flex-direction: column;
+        /*margin-top: 1rem;*/
+    }
+
+    .sidebar {
+        width: 100%;
+        max-height: 200px;
+        padding: var(--padding-sm);
+        position: fixed;
+        z-index: 32;
+        background: transparent;
+        border-right: none;
+    }
+
+    .floating {
+        bottom: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .btn:hover {
+        box-shadow: none;
+    }
+
+    .btn-danger:hover {
+        box-shadow: none;
+    }
+    
+    .btn-floating {
+        width: 2.9rem !important;
+        height: 2.9rem !important;
+        max-width: 3rem;
+        max-height: 3rem;
+    }
+
+    .help-content {
+        width: 95%;
+        margin: 5% auto;
+        max-height: 85vh;
+    }
+    
+    .help-header {
+        padding: var(--spacing-md);
+    }
+    
+    .help-body {
+        padding: var(--spacing-md);
+    }
+    
+    .shortcuts-grid .shortcut-row {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-xs);
+    }
+    
+    .shortcut-key {
+        justify-self: start;
+    }
+
+    .form-section h2 {
+        font-size: var(--font-size-base);
+    }
+
+    header {
+        flex-direction: column;
+        gap: var(--padding-xs);
+        max-height: 9rem;
+        padding: var(--padding-md);
+        align-items: flex-start;
+    }
+
+    header h1 {
+        font-size: var(--font-size-base);
+        font-weight: 800;
+        text-align: start;
+        text-align: left;
+    }
+
+    .settings-footer,
+    .settings-header {
+        padding: var(--padding-md);
+    }
+
+    .settings-header h3 {
+        font-size: var(--font-size-base);
+        font-weight: 800;
+    }
+
+    .header-controls {
+        flex-wrap: nowrap;
+        overflow: hidden;
+        overflow-x: auto;
+        align-items: center;
+        max-width: 100%;
+        justify-self: flex-start;
+        overflow: auto;
+        padding: var(--padding-sm) 0rem;
+        scrollbar-width: none;
+    }
+
+    #editor-container {
+        transform: none;
+        margin: 0;
+        position: absolute;
+        top: 11.05rem;
+        right: 0;
+        bottom: 0;
+        overflow-y: auto;
+        width: 100%;
+        padding: var(--padding-sm);
+    }
+
+    .selection-controls {
+        flex-direction: row;
+        padding-top: 0px;
+    }
+
+    #templatesList {
+        flex-direction: row;
+        overflow-y: auto;
+        padding-top: var(--padding-sm);
+    }
+
+    .templates-list h3 {
+        display: none;
+    }
+
+    .templates-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        overflow: hidden;
+        padding: var(--padding-md);
+        border-radius: var(--border-radius-md);
+        border-left: 4px solid var(--primary-color);
+        background: var(--bg-white);
+        min-height: 6rem;
+        max-height: 6rem;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .templates-list br {
+        display: none;
+    }
+
+    .template-item-container {
+        max-width: 11.5rem;
+    }
+
+    .templates-list ul {
+        flex-wrap: wrap;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group label {
+        font-size: var(--font-size-base);
+    }
+
+    .form-group input[type="file"] {
+        font-size: var(--font-size-sm);
+        padding: var(--spacing-sm);
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .preview-panel {
+        width: 100%;
+        right: -100%;
+    }
+
+    #customPropsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .custom-prop-row {
+        display: flex;
+        gap: 0.1rem;
+        margin-bottom: 0.5rem;
+        align-items: flex-start;
+        flex-direction: row;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+    }
+
+    .remove-prop {
+        position: absolute;
+    }
+
+    .btn {
+        font-size: var(--font-size-sm);
+        width: max-content;
+        min-width: 3rem;
+        border: none;
+        background-color: transparent;        
+    }
+
+    .btn:hover:not([disabled]) {
+        box-shadow: none;
+    }
+
+    .btn-secondary {
+        padding-left: 0px;
+    }
+
+    .selection-controls .btn-small {
+        border-radius: var(--border-radius-sm) !important;
+        min-width: 6rem !important;
+    }
+    
+    .first-section {
+        margin-top: var(--spacing-sm);
+    }
+
+    .modal-body,
+    .help-body {
+        padding: var(--spacing-sm);
+    }
+
+    #themeToggle {
+        padding: var(--spacing-sm);
+        min-width: 1rem;
+        font-size: 0.8rem;
+    }
+
+    .toggle-section {
+        padding: var(--spacing-sm);
+        margin-top: var(--spacing-sm);
+        border-left: 2px solid var(--primary-color);
+    }
+
+    .help-text {
+        display: none;
+    }
+
+    .material-fields {
+        flex-direction: column;
+    }
+
+    .custom-properties {
+        padding: var(--padding-sm);
+        background: transparent;
+    }
+
+    .template-item.dirty::before {
+        left: auto;
+        transform: translateY(0%) translateX(-135%);
+        font-size: 1rem;
+    }
+}

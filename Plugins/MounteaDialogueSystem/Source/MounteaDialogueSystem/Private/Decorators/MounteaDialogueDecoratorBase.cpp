@@ -3,7 +3,7 @@
 #include "Decorators/MounteaDialogueDecoratorBase.h"
 #include "Graph/MounteaDialogueGraph.h"
 #include "Helpers/MounteaDialogueGraphHelpers.h"
-#include "Interfaces/MounteaDialogueManagerInterface.h"
+#include "Interfaces/Core/MounteaDialogueManagerInterface.h"
 #include "Nodes/MounteaDialogueGraphNode.h"
 
 #if WITH_EDITOR
@@ -25,19 +25,13 @@ void UMounteaDialogueDecoratorBase::InitializeDecorator_Implementation(UWorld* W
 {
 	OwningWorld = World;
 	if (World)
-	{
 		DecoratorState = EDecoratorState::Initialized;
-	}
 
 	if (OwningParticipant)
-	{
 		OwnerParticipant = OwningParticipant;
-	}
 
 	if (NewOwningManager != nullptr)
-	{
 		OwningManager = NewOwningManager;
-	}
 };
 
 void UMounteaDialogueDecoratorBase::SetOwningManager_Implementation(const TScriptInterface<IMounteaDialogueManagerInterface>& NewOwningManager)
@@ -101,7 +95,7 @@ bool UMounteaDialogueDecoratorBase::ValidateDecorator_Implementation(UPARAM(ref)
 			{
 				bSatisfied = false;
 				FText guiltyNodeName = FText::FromString(Itr->GetName());
-				if (const UMounteaDialogueGraphNode* guiltyNode = Cast<UMounteaDialogueGraphNode>(Itr->ClassDefaultObject))
+				if (const UMounteaDialogueGraphNode* guiltyNode = GetDefault<UMounteaDialogueGraphNode>(Itr))
 					guiltyNodeName = guiltyNode->NodeTypeName;
 		
 				const FText TempText = FText::Format(
@@ -167,7 +161,7 @@ FText UMounteaDialogueDecoratorBase::GetDecoratorName_Implementation() const
 UMounteaDialogueContext* UMounteaDialogueDecoratorBase::GetContext() const
 {
 	if (OwningManager)
-		return OwningManager->Execute_GetDialogueContextEvent(OwningManager.GetObject());
+		return OwningManager->Execute_GetDialogueContext(OwningManager.GetObject());
 
 	return nullptr;
 }

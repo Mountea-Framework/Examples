@@ -2,6 +2,7 @@
 
 #include "FMounteaDialogueGraphEditorStyle.h"
 
+#include "Helpers/MounteaDialogueGraphColors.h"
 #include "Interfaces/IPluginManager.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Misc/Paths.h"
@@ -152,7 +153,21 @@ void FMounteaDialogueGraphEditorStyle::Create()
 	StyleSet->Set("MDSStyleSet.Wiki.Small", new IMAGE_BRUSH(TEXT("Wiki_Icon"), Icon16x16));
 	StyleSet->Set("MDSStyleSet.Wiki.large", new IMAGE_BRUSH(TEXT("Wiki_Icon"), Icon64x64));
 
+	StyleSet->Set("MDSStyleSet.Youtube", new IMAGE_BRUSH(TEXT("youtube_icon"), Icon40x40));
+	StyleSet->Set("MDSStyleSet.Youtube.Small", new IMAGE_BRUSH(TEXT("youtube_icon"), Icon16x16));
+	StyleSet->Set("MDSStyleSet.Youtube.large", new IMAGE_BRUSH(TEXT("youtube_icon"), Icon64x64));
+
+	StyleSet->Set("MDSStyleSet.Settings", new IMAGE_BRUSH(TEXT("settings_icon"), Icon40x40));
+	StyleSet->Set("MDSStyleSet.Settings.Small", new IMAGE_BRUSH(TEXT("settings_icon"), Icon16x16));
+	StyleSet->Set("MDSStyleSet.Settings.large", new IMAGE_BRUSH(TEXT("settings_icon"), Icon64x64));
+
+	StyleSet->Set("MDSStyleSet.Config", new IMAGE_BRUSH(TEXT("configIcon"), Icon40x40));
+
 	StyleSet->Set("MDSStyleSet.DialogueSystemIcon", new IMAGE_BRUSH(TEXT("DialogueSystem_Icon"), Icon16x16));
+
+	StyleSet->Set("MDSStyleSet.Tutorial", new IMAGE_BRUSH(TEXT("tutorialPage_icon"), Icon16x16));
+	StyleSet->Set("MDSStyleSet.Folder", new IMAGE_BRUSH(TEXT("FolderIcon"), Icon40x40));
+	StyleSet->Set("MDSStyleSet.Level", new IMAGE_BRUSH(TEXT("LevelIcon"), Icon40x40));
 
 	const FButtonStyle MounteaButtonStyle = FButtonStyle()
 		.SetNormal(BOX_BRUSH("RoundedSelection_16x", 4.0f / 16.0f, FLinearColor(1, 1, 1, 0.1f)))
@@ -160,6 +175,13 @@ void FMounteaDialogueGraphEditorStyle::Create()
 		.SetPressed(BOX_BRUSH("RoundedSelection_16x", 4.0f / 16.0f,  FLinearColor(1, .55f, 0, 0.4f)));
 
 	StyleSet->Set("MDSStyleSet.Buttons.Style", MounteaButtonStyle);
+
+	FButtonStyle MounteaCloseButtonStyle = FAppStyle::Get().GetWidgetStyle<FButtonStyle>("Button");;
+		MounteaCloseButtonStyle.Normal.TintColor = FLinearColor(1.f, 0.1f, 0.1f, 0.65f);
+		MounteaCloseButtonStyle.Hovered.TintColor = FLinearColor(0.8f, 0.1f, 0.1f, 1.f);
+		MounteaCloseButtonStyle.Pressed.TintColor = FLinearColor(1.0f, 0.1f, 0.1f, 0.85f);
+
+	StyleSet->Set("MDSStyleSet.Buttons.CloseStyle", MounteaCloseButtonStyle);
 
 	{
 		const FScrollBarStyle ScrollBar = GetWidgetStyle<FScrollBarStyle>( "ScrollBar" );
@@ -169,12 +191,12 @@ void FMounteaDialogueGraphEditorStyle::Create()
 			.SetColorAndOpacity(FSlateColor::UseForeground())
 			.SetShadowOffset(FVector2D::ZeroVector)
 			.SetShadowColorAndOpacity(FLinearColor::Black)
-			.SetHighlightColor( FLinearColor( 0.02f, 0.3f, 0.0f ) )
+			.SetHighlightColor( MounteaDialogueGraphColors::TextColors::Normal )
 			.SetHighlightShape( BOX_BRUSH( "TextBlockHighlightShape", FMargin(3.f/8.f) ) );
 		
 		FTextBlockStyle NodeTitle = FTextBlockStyle(NormalText)
 			.SetFont( DEFAULT_FONT( "Bold", 14 ) )
-			.SetColorAndOpacity( FLinearColor(230.0f/255.0f,230.0f/255.0f,230.0f/255.0f) )
+			.SetColorAndOpacity( MounteaDialogueGraphColors::TextColors::Normal )
 			.SetShadowOffset( FVector2D( 2,2 ) )
 			.SetShadowColorAndOpacity( FLinearColor(0.f,0.f,0.f, 0.7f) );
 		StyleSet->Set( "MDSStyleSet.NodeTitle", NodeTitle );

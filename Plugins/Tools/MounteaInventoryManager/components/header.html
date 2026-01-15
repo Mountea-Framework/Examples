@@ -1,0 +1,39 @@
+<header>
+  <h1>Mountea Inventory Template Editor</h1>
+  <ul class="header-controls">
+    <li id="helpParent">
+      <button id="help" class="btn btn-secondary">Help</button>
+    </li>
+    <li id="settingsParent">
+      <button id="settings" class="btn btn-secondary">Settings</button>
+    </li>
+    <li id="newTemplateParent">
+      <button id="newTemplate" class="btn btn-primary">New Template</button>
+    </li>
+    <li id="duplicateTemplateParent" class="hidden selection">
+      <button type="button" id="duplicateTemplate" class="btn btn-secondary">Duplicate</button>
+    </li>
+    <li id="importTemplateParent">
+      <button id="importTemplate" class="btn btn-secondary">Import JSON</button>
+    </li>
+    <li id="exportTemplateParent">
+      <button id="exportTemplate" class="btn btn-secondary">Export JSON</button>
+    </li>
+    <li id="exportSingleParent" class="hidden selection">
+      <button id="exportSingle" class="btn btn-secondary">
+        <abbr title="Exports active Template to Unreal .mnteaitem file">Export Item</abbr>
+      </button>
+    </li>
+    <li id="exportMultipleParent">
+      <button id="exportMultiple" class="btn btn-secondary">
+        <abbr title="Exports selected Templates to Unreal .mnteaitems file">Export Items</abbr>
+      </button>
+    </li>
+    <li id="showPreviewParent" class="hidden selection">
+      <button id="showPreview" class="btn btn-secondary">
+        <abbr title="Shows/hides preview panel">Show/Hide Preview</abbr>
+      </button>
+    </li>
+    <input type="file" id="fileInput" accept=".json" style="display: none" />
+  </ul>
+</header>

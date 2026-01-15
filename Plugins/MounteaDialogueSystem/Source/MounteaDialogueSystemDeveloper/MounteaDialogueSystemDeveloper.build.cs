@@ -5,7 +5,7 @@ public class MounteaDialogueSystemDeveloper : ModuleRules
 	public MounteaDialogueSystemDeveloper(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		CppStandard = CppStandardVersion.Cpp17;
+		CppStandard = CppStandardVersion.Cpp20;
 
 		PublicDependencyModuleNames.AddRange(
 			new string[]
@@ -23,7 +23,7 @@ public class MounteaDialogueSystemDeveloper : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore", 
-				"MounteaDialogueSystem"
+				"MounteaDialogueSystem", 
 			}
 		);
 
@@ -34,7 +34,7 @@ public class MounteaDialogueSystemDeveloper : ModuleRules
 				{
 					"EditorStyle",
 					"BlueprintGraph",
-					"MounteaDialogueSystemEditor"
+					"ApplicationCore",
 				}
 			);
 		}

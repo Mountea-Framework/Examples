@@ -1,0 +1,248 @@
+<div class="editor-panel">
+  <form id="templateForm">
+    <!-- Basic Information -->
+    <section class="form-section first-section">
+      <h2>Basic Information</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="itemName">Item Name</label>
+          <input type="text" id="itemName" name="itemName" required maxlength="32" />
+        </div>
+        <div class="form-group">
+          <label for="displayName">Display Name</label>
+          <input type="text" id="displayName" name="displayName" required />
+        </div>
+        <div class="form-group">
+          <label for="itemID">Item ID</label>
+          <input type="text" id="itemID" name="itemID" required placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" />
+        </div>
+        <div class="form-group">
+          <label for="short-description">Thumbnail Description</label>
+          <textarea id="short-description" name="short-description" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Item Properties -->
+    <section class="form-section">
+      <h2>Item Properties</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="itemType">Item Type</label>
+          <select id="itemType" name="itemType">
+            <option value="Weapon">Weapon</option>
+            <option value="Armor">Armor</option>
+            <option value="Consumable">Consumable</option>
+            <option value="Material">Material</option>
+            <option value="Quest">Quest</option>
+            <option value="Misc">Miscellaneous</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="itemSubCategory">Sub Category</label>
+          <select id="itemSubCategory" name="itemSubCategory">
+            <option value="">None</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="rarity">Rarity</label>
+          <select id="rarity" name="rarity">
+            <option value="Common">Common</option>
+            <option value="Uncommon">Uncommon</option>
+            <option value="Rare">Rare</option>
+            <option value="Epic">Epic</option>
+            <option value="Legendary">Legendary</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="maxStackSize">Max Stack Size</label>
+          <input type="number" id="maxStackSize" name="maxStackSize" min="1" value="1" />
+        </div>
+        <div class="form-group">
+          <label for="maxQuantity">Max Quantity</label>
+          <input type="number" id="maxQuantity" name="maxQuantity" min="0" value="1" />
+        </div>
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input type="text" class="tag-input" id="tagInput" placeholder="Type to add tags...">
+          <div id="tagSuggestions" class="tag-suggestions hidden"></div>
+          <div class="tags-container" id="tagsContainer">
+          </div>
+          <small class="help-text">Use tags for categorization, filtering, and gameplay logic</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weight System -->
+    <section class="form-section">
+      <h2>Weight System</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="bHasWeight" name="bHasWeight" />
+            Has Weight
+          </label>
+        </div>
+      </div>
+      <div class="toggle-section disabled" id="weightSection">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="weight">Weight</label>
+            <input type="number" id="weight" name="weight" step="0.001" min="0.001" value="1.0" disabled />
+            <small class="help-text">Weight affects inventory limits</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Price System -->
+    <section class="form-section">
+      <h2>Price System</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="bHasPrice" name="bHasPrice" />
+            Has Monetary Value
+          </label>
+        </div>
+      </div>
+      <div class="toggle-section disabled" id="priceSection">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="basePrice">Base Price</label>
+            <input type="number" id="basePrice" name="basePrice" min="0" value="0" disabled />
+            <small class="help-text">Base monetary value of the item</small>
+          </div>
+          <div class="form-group">
+            <label for="sellPriceCoefficient">Sell Price Coefficient</label>
+            <input type="number" id="sellPriceCoefficient" name="sellPriceCoefficient" step="0.01" min="0" value="0.5" disabled />
+            <small class="help-text">Multiplier applied when selling</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Durability System -->
+    <section class="form-section">
+      <h2>Durability System</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="bHasDurability" name="bHasDurability" />
+            Has Durability
+          </label>
+        </div>
+      </div>
+      <div class="toggle-section disabled" id="durabilitySection">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="maxDurability">Max Durability</label>
+            <input type="number" id="maxDurability" name="maxDurability" min="1" value="100" disabled />
+          </div>
+          <div class="form-group">
+            <label for="baseDurability">Base Durability</label>
+            <input type="number" id="baseDurability" name="baseDurability" min="0" value="100" disabled />
+          </div>
+          <div class="form-group">
+            <label for="durabilityPenalization">Durability Penalty</label>
+            <input type="number" id="durabilityPenalization" name="durabilityPenalization" step="0.1" min="0" value="1.0" disabled />
+          </div>
+          <div class="form-group">
+            <label for="durabilityToPriceCoefficient">Durability to Price Coefficient</label>
+            <input type="number" id="durabilityToPriceCoefficient" name="durabilityToPriceCoefficient" step="0.01" min="0" value="1.0" disabled />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Flags -->
+    <section class="form-section">
+      <h2>Item Flags</h2>
+      <div class="form-grid">
+        <div class="form-group checkbox-group">
+          <label><input type="checkbox" id="isStackable" name="isStackable" checked /> Stackable</label>
+          <label><input type="checkbox" id="isDroppable" name="isDroppable" checked /> Droppable</label>
+          <label><input type="checkbox" id="isUsable" name="isUsable" checked /> Usable</label>
+          <label><input type="checkbox" id="isEquippable" name="isEquippable" /> Equippable</label>
+          <label><input type="checkbox" id="isTradeable" name="isTradeable" checked /> Tradeable</label>
+          <label><input type="checkbox" id="isQuestItem" name="isQuestItem" /> Quest Item</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Equipment Specific -->
+    <section class="form-section" id="equipmentSection" style="display: none">
+      <h2>Equipment Properties</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="equipSlot">Equipment Slot</label>
+          <select id="equipSlot" name="equipSlot">
+            <option value="None">None</option>
+            <option value="Helmet">Helmet</option>
+            <option value="Chest">Chest</option>
+            <option value="Legs">Legs</option>
+            <option value="Boots">Boots</option>
+            <option value="Gloves">Gloves</option>
+            <option value="MainHand">Main Hand</option>
+            <option value="OffHand">Off Hand</option>
+            <option value="Ring">Ring</option>
+            <option value="Necklace">Necklace</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Assets -->
+    <section class="form-section">
+      <h2>Visual Assets</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="iconPath">Icon</label>
+          <input type="file" id="iconPath" name="iconPath" accept=".jpg,.jpeg,.png,.bmp,image/jpeg,image/png,image/bmp" />
+          <small class="file-info">Accepted formats: JPG, PNG, BMP</small>
+        </div>
+        <div class="form-group">
+          <label for="meshPath">Mesh</label>
+          <input type="file" id="meshPath" name="meshPath" accept=".fbx,.obj" />
+          <small class="file-info">Accepted formats: FBX, OBJ</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Materials -->
+    <section class="form-section">
+      <h2>Materials</h2>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Materials</label>
+          <div class="materials-header">
+            <button type="button" id="addMaterial" class="btn btn-secondary">
+              Add Material
+            </button>
+            <small class="help-text">
+              Define materials used by this item. Paths will auto-generate as "/Game/Materials/{MaterialName}"
+            </small>
+          </div>
+          <div id="materialsContainer" class="materials-container">
+            <!-- Material rows will be dynamically added here -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Custom Properties -->
+    <section class="form-section">
+      <h2>Custom Properties</h2>
+      <div class="custom-properties">
+        <div class="custom-props-header">
+          <button type="button" id="addCustomProp" class="btn btn-small">+</button>
+        </div>
+        <div id="customPropsContainer"></div>
+      </div>
+    </section>
+  </form>
+</div>

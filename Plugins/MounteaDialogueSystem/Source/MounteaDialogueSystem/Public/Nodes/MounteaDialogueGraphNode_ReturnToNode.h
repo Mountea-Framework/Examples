@@ -27,6 +27,13 @@ public:
 public:
 
 	/**
+	 * Defines how long it takes before the actual Jump happens.
+	 * Short delay time can avoid cutting audio and can provide time for Client-sided actions.
+	 */
+	UPROPERTY(SaveGame, Category="Mountea|Dialogue", EditAnywhere, BlueprintReadOnly, meta=(NoResetToDefault,Units = "s", UIMin = 0.01, ClampMin = 0.01))
+	float DelayDuration;
+
+	/**
 	 * Shows list of Node Indexes.
 	 * This is not very user friendly, however, to combat this Preview is generated with ability to click on it and get focused on selected Node.
 	 */
@@ -56,6 +63,11 @@ public:
 
 protected:
 
+	FTimerHandle TimerHandle_Delay;
+
+	UFUNCTION()
+	void OnDelayDurationExpired(const TScriptInterface<IMounteaDialogueManagerInterface>& MounteaDialogueManagerInterface);
+
 #if WITH_EDITOR
 	
 	virtual FText GetNodeCategory_Implementation() const override;
@@ -63,48 +75,12 @@ protected:
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 	virtual FText GetDescription_Implementation() const override;
 	virtual FString GetNodeDocumentationLink_Implementation() const override
-	{ return TEXT("https://github.com/Mountea-Framework/MounteaDialogueSystem/wiki/Return-To-Node"); };
+	{ return TEXT("https://mountea.tools/docs/DialogueSystem/DialogueNodes/ReturnToNode/"); };
 
 #endif
 
 private:
 
 	UFUNCTION()
-	TArray<FString> GetRowNames() const
-	{
-		TArray<FString> nodeNames;
-		if (!Graph)
-		{
-			return nodeNames;
-		}
-		for (const auto& Itr : Graph->GetAllNodes())
-		{
-			if (!Itr)
-			{
-				continue;
-			}
-			
-			// Check if this is allowed class
-			bool bIsAllowed = true;
-			for (auto& ItrClass : AllowedNodesFilter)
-			{
-				if (Itr->IsA(ItrClass))
-				{
-					bIsAllowed = false;
-					break;
-				}
-			}
-
-			if (!bIsAllowed)
-			{
-				continue;
-			}
-			
-			// Show only those allowed
-			FString AllowedIndex = FString::FromInt(Graph->AllNodes.Find(Itr));
-			nodeNames.Add(AllowedIndex);
-		}
-
-		return nodeNames;
-	}
+	TArray<FString> GetRowNames() const;
 };

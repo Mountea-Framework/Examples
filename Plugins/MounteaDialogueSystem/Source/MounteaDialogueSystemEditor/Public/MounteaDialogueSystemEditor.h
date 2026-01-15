@@ -54,9 +54,13 @@ private:
 	
 	void LauncherButtonClicked() const;
 	void DialoguerButtonClicked() const;
+	void YoutubeButtonClicked() const;
 	void WikiButtonClicked() const;
 	void PluginButtonClicked() const;
 	void RegisterMenus();
+	void SettingsButtonClicked() const;
+	void EditorSettingsButtonClicked() const;
+	void ConfigButtonClicked() const;
 	TSharedRef<SWidget> MakeMounteaMenuWidget() const;
 
 protected:
@@ -65,6 +69,12 @@ protected:
 	void RefreshGameplayTags();
 	void UpdateTagsConfig(const FString& NewContent);
 	void CreateTagsConfig(const FString& NewContent);
+
+	void RegisterTabSpawners(const TSharedRef<FTabManager>& TabManager);
+	void TutorialButtonClicked() const;
+	
+private:
+	TSharedRef<SDockTab> OnSpawnDialogueSystemTutorialTab(const FSpawnTabArgs& SpawnTabArgs);
 
 private:
 	
@@ -75,7 +85,6 @@ private:
 	TSharedPtr<struct FGraphPanelNodeFactory> GraphPanelNodeFactory_MounteaDialogueGraph;
 	TArray< TSharedPtr<IAssetTypeActions> > CreatedAssetTypeActions;
 
-	EAssetTypeCategories::Type MounteaDialogueGraphAssetCategoryBit;
 	FHttpModule* Http = nullptr;
 
 	TArray<FName> RegisteredCustomClassLayouts;

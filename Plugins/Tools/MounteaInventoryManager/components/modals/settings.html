@@ -1,0 +1,42 @@
+<div class="settings-modal" id="settingsModal">
+  <div class="settings-content">
+    <div class="settings-header">
+      <h3>Settings</h3>
+      <button id="closeSettings" class="btn btn-small close">×</button>
+    </div>
+    <div class="modal-body">
+      <section class="modal-section">
+        <h4>Categories</h4>
+        <div class="settings-controls">
+          <button type="button" id="addCategory" class="btn btn-secondary">Add New Category</button>
+        </div>
+        <div id="categoriesContainer" class="settings-container"></div>
+        <section class="modal-section">
+          <details>
+            <summary>Subcategories</summary>
+            <div id="subcategoriesContainer" class="settings-container"></div>
+          </details>
+        </section>
+      </section>
+
+      <section class="modal-section">
+        <h4>Rarities</h4>
+        <div class="settings-controls">
+          <button type="button" id="addRarity" class="btn btn-secondary">Add New Rarity</button>
+        </div>
+        <div id="raritiesContainer" class="settings-container"></div>
+      </section>
+
+      <section class="modal-section">
+        <h4>Equipment Slots</h4>
+        <div class="settings-controls">
+          <button type="button" id="addEquipmentSlot" class="btn btn-secondary">Add New Equipment Slot</button>
+        </div>
+        <div id="equipmentSlotsContainer" class="settings-container"></div>
+      </section>
+    </div>
+    <div class="settings-footer">
+      <button id="saveSettings" class="btn btn-primary">Save Settings</button>
+    </div>
+  </div>
+</div>

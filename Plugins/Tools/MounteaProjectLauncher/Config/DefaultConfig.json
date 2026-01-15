@@ -1,0 +1,16 @@
+{
+	"unreal_engine_paths": [
+		"C:/Program Files/Epic Games",
+		"D:/Program Files/Epic Games",
+		"D:/UE"
+	],
+	"launch_commands": {
+		"DedicatedServer": "\"{executable}\" \"{uproject_path}\" {map_path} -server -log",
+		"P2PServer": "\"{executable}\" \"{uproject_path}\" {map_path}?listen -game -WINDOWED -ResX=1600 -ResY=900 -log",
+		"Client": "\"{executable}\" \"{uproject_path}\" 127.0.0.1 -game -WINDOWED -ResX=1200 -ResY=800 -log",
+		"Standalone": "\"{executable}\" \"{uproject_path}\" {map_path} -game -WINDOWED -ResX=1600 -ResY=900 -log"
+	},
+
+	"version": "0.0.0.6",
+	"night_mode": true
+}

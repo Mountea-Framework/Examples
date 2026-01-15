@@ -1,0 +1,25 @@
+/* Layout */
+.main-panel {
+    display: grid;
+}
+
+.floating {
+    display: flex;
+    gap: var(--padding-sm);
+    flex-direction: column;
+    z-index: 1000;
+    position: fixed;
+}
+
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 0;
+    background: var(--bg-white);
+}
+
+#editor-container {
+    flex: 1;
+    padding: var(--spacing-md);
+    overflow-y: auto;
+}

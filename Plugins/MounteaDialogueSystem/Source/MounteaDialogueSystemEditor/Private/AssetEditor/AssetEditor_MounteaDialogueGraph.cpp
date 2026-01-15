@@ -41,7 +41,7 @@
 
 #pragma region ConstantNames
 
-const FName MounteaDialogueGraphEditorAppName = FName(TEXT("MounteaDialogueGraphEditorApp"));
+const FName MounteaDocumentationPageTabName = FName(TEXT("MounteaDialogueGraphEditorApp"));
 const FName FAssetEditorTabs_MounteaDialogueGraph::MounteaDialogueGraphPropertyID(TEXT("MounteaDialogueGraphProperty"));
 const FName FAssetEditorTabs_MounteaDialogueGraph::ViewportID(TEXT("Viewport"));
 const FName FAssetEditorTabs_MounteaDialogueGraph::SearchToolbarID(TEXT("Search"));
@@ -75,6 +75,7 @@ void FAssetEditor_MounteaDialogueGraph::InitMounteaDialogueGraphAssetEditor(
 	EditingGraph = Graph;
 	CreateEdGraph();
 	FMounteaDialogueGraphEditorCommands::Register();
+	CreateCommandList();
 
 	if (!ToolbarBuilder.IsValid())
 	{
@@ -82,7 +83,6 @@ void FAssetEditor_MounteaDialogueGraph::InitMounteaDialogueGraphAssetEditor(
 	}
 
 	BindCommands();
-
 	CreateInternalWidgets();
 
 	TSharedPtr<FExtender> ToolbarExtender = MakeShareable(new FExtender);
@@ -141,7 +141,7 @@ void FAssetEditor_MounteaDialogueGraph::InitMounteaDialogueGraphAssetEditor(
 	(
 		Mode,
 		InitToolkitHost,
-		MounteaDialogueGraphEditorAppName,
+		MounteaDocumentationPageTabName,
 		StandaloneDefaultLayout,
 		bCreateDefaultStandaloneMenu,
 		bCreateDefaultToolbar,
@@ -247,7 +247,7 @@ FString FAssetEditor_MounteaDialogueGraph::GetWorldCentricTabPrefix() const
 
 FString FAssetEditor_MounteaDialogueGraph::GetDocumentationLink() const
 {
-	return TEXT("https://github.com/Mountea-Framework/MounteaDialogueSystem/wiki/Dialogue-Tree-Editor");
+	return TEXT("https://mountea.tools/docs/dialoguesystem/gettingstarted/createdialogueasset/");
 }
 
 void FAssetEditor_MounteaDialogueGraph::SaveAsset_Execute()
@@ -569,14 +569,16 @@ void FAssetEditor_MounteaDialogueGraph::CreateEdGraph()
 			}
 		}
 
-		MounteaDialogueGraph->RebuildMounteaDialogueGraph();
+		//MounteaDialogueGraph->RebuildMounteaDialogueGraph();
 	}
 
 	if (UEdGraph_MounteaDialogueGraph* EdMounteaGraph = Cast<UEdGraph_MounteaDialogueGraph>(EditingGraph->EdGraph))
 	{
 		EdMounteaGraph->SetDialogueEditorPtr(SharedThis(this));
-		EdMounteaGraph->RebuildMounteaDialogueGraph();
+		//EdMounteaGraph->RebuildMounteaDialogueGraph();
 	}
+
+	FAssetEditorToolkit::SaveAsset_Execute();
 }
 
 void FAssetEditor_MounteaDialogueGraph::CreateCommandList()
@@ -950,11 +952,11 @@ void FAssetEditor_MounteaDialogueGraph::PasteNodes()
 	TSharedPtr<SGraphEditor> CurrentGraphEditor = GetCurrGraphEditor();
 	if (CurrentGraphEditor.IsValid())
 	{
-		PasteNodesHere(CurrentGraphEditor->GetPasteLocation());
+		PasteNodesHere(CurrentGraphEditor->GetPasteLocation2f());
 	}
 }
 
-void FAssetEditor_MounteaDialogueGraph::PasteNodesHere(const FVector2D& Location)
+void FAssetEditor_MounteaDialogueGraph::PasteNodesHere(const FVector2f& Location)
 {
 	// Find the graph editor with focus
 	TSharedPtr<SGraphEditor> CurrentGraphEditor = GetCurrGraphEditor();
@@ -1010,16 +1012,17 @@ void FAssetEditor_MounteaDialogueGraph::PasteNodesHere(const FVector2D& Location
 			// Give new node a different Guid from the old one
 			Node->CreateNewGuid();
 
-			if (UEdNode_MounteaDialogueGraphNode* MounteaNode = Cast<UEdNode_MounteaDialogueGraphNode>(Node))
+			UEdNode_MounteaDialogueGraphNode* MounteaNode = Cast<UEdNode_MounteaDialogueGraphNode>(Node);
+			if (!MounteaNode)
+				continue;
+			
+			if (MounteaNode->DialogueGraphNode)
 			{
-				if (MounteaNode->DialogueGraphNode)
-				{
-					MounteaNode->DialogueGraphNode->OnPasted();
-					MounteaNode->SetDialogueNodeIndex(SharedIndex);
-				}
-
-				SharedIndex++;
+				MounteaNode->DialogueGraphNode->OnPasted();
+				MounteaNode->SetDialogueNodeIndex(SharedIndex);
 			}
+
+			SharedIndex++;
 		}
 	}
 
@@ -1229,7 +1232,7 @@ void FAssetEditor_MounteaDialogueGraph::OnSelectedNodesChanged(const TSet<UObjec
 		PropertyWidget->SetObject(EditingGraph);
 	}
 
-	RebuildMounteaDialogueGraph();
+	//RebuildMounteaDialogueGraph();
 }
 
 void FAssetEditor_MounteaDialogueGraph::OnNodeDoubleClicked(UEdGraphNode* Node)

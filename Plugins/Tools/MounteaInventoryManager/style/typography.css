@@ -1,0 +1,28 @@
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+title {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+* { 
+    color: var(--text-primary);
+}
+
+small {
+    max-width: 75%;
+}
+
+/* Form Section Headings */
+.form-section h2 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-xl);
+    border-bottom: 2px solid var(--bg-border);
+    padding-bottom: var(--spacing-sm);
+}

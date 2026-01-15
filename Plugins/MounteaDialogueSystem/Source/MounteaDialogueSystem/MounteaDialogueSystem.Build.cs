@@ -8,7 +8,7 @@ public class MounteaDialogueSystem : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		bLegacyPublicIncludePaths = false;
-		ShadowVariableWarningLevel = WarningLevel.Error;
+		CppCompileWarningSettings.ShadowVariableWarningLevel = WarningLevel.Error;
 		
 		PublicIncludePaths.AddRange
 		(
@@ -35,8 +35,7 @@ public class MounteaDialogueSystem : ModuleRules
 				"Core",
 				"CoreUObject",
 				"Engine",
-				"UMG",
-				// ... add other public dependencies that you statically link with here ...
+				"UMG"
 			}
 		);
 			
@@ -53,7 +52,7 @@ public class MounteaDialogueSystem : ModuleRules
 				"UMG",
 				"Projects",
 				"NetCore",
-				// ... add private dependencies that you statically link with here ...	
+				"InputCore"
 			}
 		);
 		

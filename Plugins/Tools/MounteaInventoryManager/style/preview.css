@@ -1,0 +1,71 @@
+/* Preview Panel */
+.preview-panel {
+    position: fixed;
+    top: 0;
+    right: -500px;
+    width: 500px;
+    height: 100vh;
+    background: var(--bg-white);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.preview-panel.show {
+    right: 0;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-lg);
+    border-bottom: 2px solid var(--bg-border);
+    background: var(--bg-white-solid);
+}
+
+.preview-header h3 {
+    margin: 0;
+}
+
+#previewContent {
+    flex: 1;
+    padding: var(--spacing-lg);
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    background: var(--bg-light);
+    margin: 0;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Rarity Colors - Updated for better visibility in dark theme */
+.rarity-common {
+    color: var(--text-muted);
+}
+
+.rarity-uncommon {
+    color: var(--success-color);
+}
+
+.rarity-rare {
+    color: var(--info-color);
+}
+
+.rarity-epic {
+    color: #a855f7;
+}
+
+.rarity-legendary {
+    color: var(--warning-color);
+}
+
+#importTemplateParent,
+#exportTemplateParent {
+    display: none;
+}

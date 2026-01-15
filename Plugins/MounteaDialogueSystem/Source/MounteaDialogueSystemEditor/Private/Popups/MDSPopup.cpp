@@ -51,7 +51,7 @@ Now, let's get straight to the exciting new features and bug fixes in this versi
 		const FString InvalidChangelog = FString(R"(
 We're sorry, but there was an error retrieving the online Changelog. We apologize for the inconvenience.
 
-You can still access the complete changelog publicly <a id="browser" href="https://github.com/Mountea-Framework/MounteaInteractionSystem/blob/5.4/CHANGELOG.md">on our GitHub</>.
+You can still access the complete changelog publicly <a id="browser" href="https://github.com/Mountea-Framework/MounteaDialogueSystem/blob/master/CHANGELOG.md">on our GitHub</>.
 
 Thank you for your understanding!
 )");
@@ -137,6 +137,23 @@ FPluginVersion MDSPopup::GetPluginVersion()
 	return FPluginVersion(Version, VersionName);
 }
 
+bool MDSPopup::IsVersionGreater(const FString& NewVersion, const FString& OldVersion)
+{
+	TArray<FString> NewParts, OldParts;
+	NewVersion.ParseIntoArray(NewParts, TEXT("."), true);
+	OldVersion.ParseIntoArray(OldParts, TEXT("."), true);
+	while (NewParts.Num() < 4) NewParts.Add(TEXT("0"));
+	while (OldParts.Num() < 4) OldParts.Add(TEXT("0"));
+	for (int32 i = 0; i < 4; ++i)
+	{
+		int32 NewNum = FCString::Atoi(*NewParts[i]);
+		int32 OldNum = FCString::Atoi(*OldParts[i]);
+		if (NewNum > OldNum) return true;
+		if (NewNum < OldNum) return false;
+	}
+	return false;
+}
+
 void MDSPopup::Register(const FString& Changelog)
 {
 	const FString PluginDirectory = IPluginManager::Get().FindPlugin(TEXT("MounteaDialogueSystem"))->GetBaseDir();
@@ -163,7 +180,7 @@ void MDSPopup::Register(const FString& Changelog)
 		CurrentPluginVersion = ChangelogVersion;
 	}
 
-	if (MDSPopupConfig->PluginVersionUpdate != CurrentPluginVersion)
+	if (IsVersionGreater(CurrentPluginVersion, MDSPopupConfig->PluginVersionUpdate))
 	{
 		MDSPopupConfig->PluginVersionUpdate = CurrentPluginVersion;
 		MDSPopupConfig->SaveConfig(CPF_Config, *NormalizedConfigFilePath);

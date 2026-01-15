@@ -1,0 +1,21 @@
+{
+  "name": "Mountea Inventory Manager",
+  "short_name": "Inventory",
+  "start_url": "/InventoryManager/",
+  "display": "standalone",
+  "background_color": "#1e1e1e",
+  "theme_color": "#1e1e1e",
+  "description": "Manage your inventory item templates online from any device. Simple, fast, and accessible.",
+  "icons": [
+    {
+      "src": "assets/MounteaInventoryManager_Icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/MounteaInventoryManager_Icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
