@@ -1,0 +1,12 @@
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+.floating {
+    display: flex;
+    gap: var(--padding-sm);
+    flex-direction: column;
+    z-index: 1000;
+    position: fixed;
+}

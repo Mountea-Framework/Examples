@@ -1,0 +1,103 @@
+/* CSS Variables */
+:root {
+    /* Colors */
+    --primary-color: #4a90e2;
+    --primary-gradient: linear-gradient(135deg, #cbe5ff 0%, #430000 100%);
+    --background-gradient: linear-gradient(135deg, #acc9ff 0%, #2a5298 100%);
+    --secondary-color: #6c757d;
+    --danger-color: #dc3545;
+    --success-color: #28a745;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+
+    /* Text Colors */
+    --text-primary: #2c3e50;
+    --text-secondary: #495057;
+    --text-muted: #6c757d;
+
+    /* Background Colors */
+    --bg-white: rgba(255, 255, 255, 0.95);
+    --bg-white-solid: #ffffff;
+    --bg-light: #f8f9fa;
+    --bg-border: #e9ecef;
+    --bg-border-dark: #dee2e6;
+    --bg-secondary: #6c757d;
+    --border-color: #dee2e6;
+    --accent-color: #4a90e2;
+    --bg-tags: #dfdfdf;
+
+    /* Spacing */
+    --spacing-xs: 0.3rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+
+    /* Border Radius */
+    --border-radius-sm: 4px;
+    --border-radius-md: 6px;
+    --border-radius-lg: 8px;
+
+    /* Padding */
+    --padding-xs: 0.15rem;
+    --padding-sm: 0.25rem;
+    --padding-md: 0.5rem;
+    --padding-lg: 1rem;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-error-sm: 0 2px 10px rgba(255, 0, 0, 0.2);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-error-md: 0 2px 10px rgba(255, 0, 0, 0.2);
+    --shadow-lg: 0 4px 12px rgba(102, 126, 234, 0.4);
+    --shadow-error-lg: 0 4px 12px rgba(255, 0, 0, 0.4);
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+
+    /* Typography */
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-size-sm: 0.8rem;
+    --font-size-base: 0.9rem;
+    --font-size-lg: 1.2rem;
+    --font-size-xl: 1.3rem;
+    --font-size-xxl: 1.8rem;
+}
+
+/* Dark Theme Variables */
+:root[data-theme="dark"] {
+    /* Colors */
+    --primary-color: #1b2b3b;
+    --primary-gradient: linear-gradient(183deg, #00082f 0%, #230000 100%);
+    --background-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    --secondary-color: #64748b;
+    --danger-color: #ef4444;
+    --success-color: #22c55e;
+    --warning-color: #f59e0b;
+    --info-color: #06b6d4;
+
+    /* Text Colors */
+    --text-primary: #868686;
+    --text-secondary: #868686;
+    --text-muted: #94a3b8;
+
+    /* Background Colors */
+    --bg-white: rgb(16 16 16 / 95%);
+    --bg-white-solid: #1e1e1e;
+    --bg-light: #252525;
+    --bg-border: #383838;
+    --bg-border-dark: #2b2b2b;
+    --bg-secondary: #475569;
+    --border-color: #414141;
+    --accent-color: #60a5fa8e;
+    --bg-tags: #252525;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-error-sm: 0 2px 10px rgba(239, 68, 68, 0.3);
+    --shadow-md: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-error-md: 0 2px 10px rgba(239, 68, 68, 0.3);
+    --shadow-lg: 0 4px 12px rgba(96, 165, 250, 0.4);
+    --shadow-error-lg: 0 4px 12px rgba(239, 68, 68, 0.4);
+}

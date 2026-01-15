@@ -1,0 +1,39 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scrollbar-width: none;
+}
+
+body {
+    font-family: var(--font-family);
+    background: var(--bg-white-solid);
+    color: #333;
+    min-height: 100vh;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    user-select: none;
+}
+
+*::-webkit-scrollbar {
+    display: none;
+}
+
+ul {
+    list-style: none !important;
+}
+
+abbr {
+    text-decoration: none;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.hidden {
+    display: none !important;
+}

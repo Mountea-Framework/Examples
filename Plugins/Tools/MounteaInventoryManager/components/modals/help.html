@@ -1,0 +1,150 @@
+<div class="help-modal" id="helpModal">
+  <div class="help-content">
+    <div class="settings-header">
+      <h3>Help</h3>
+      <button id="closeHelp" class="btn btn-small close">×</button>
+    </div>
+    <div class="modal-body">
+      <section class="modal-section">
+        <h4>🚀 Getting Started</h4>
+        <div class="field-group">
+          <p>The Mountea Inventory Template Editor helps you create and manage item templates for Unreal Engine inventory systems. Here's how to get started:</p>
+          <ul>
+            <li><strong>Create New Template:</strong> Click "New Template" to start creating an item</li>
+            <li><strong>Fill Required Fields:</strong> Item Name, Display Name, and Item ID are required</li>
+            <li><strong>Add Assets:</strong> Upload icon images and 3D mesh files for your items</li>
+            <li><strong>Export:</strong> Export single items (.mnteaitem) or multiple items (.mnteaitems)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>📝 Field Explanations</h4>
+        <div class="field-explanations">
+          <div class="field-group">
+            <h5>Basic Information</h5>
+            <p><strong>Item Name:</strong> Internal identifier (max 24 chars, no spaces, letters/underscores only)</p>
+            <p><strong>Display Name:</strong> User-friendly name shown in the game</p>
+            <p><strong>Item ID:</strong> Unique GUID identifier for the item</p>
+            <p><strong>Tooltip Descriptions:</strong> Text shown to players in tooltips and inventory</p>
+            <p><strong>Descriptions:</strong> Text shown to players in inventory</p>
+          </div>
+
+          <div class="field-group">
+            <h5>Properties</h5>
+            <p><strong>Item Type:</strong> Category for organization and filtering</p>
+            <p><strong>Rarity:</strong> Determines item color and perceived value</p>
+            <p><strong>Stack Size:</strong> Maximum items that can stack together</p>
+            <p><strong>Weight:</strong> Affects inventory capacity calculations</p>
+            <p><strong>Value:</strong> Base monetary worth of the item</p>
+            <p><strong>Durability:</strong> Maximum condition before item breaks</p>
+          </div>
+
+          <div class="field-group">
+            <h5>Item Flags</h5>
+            <p><strong>Stackable:</strong> Can multiple items occupy one slot?</p>
+            <p><strong>Droppable:</strong> Can players drop this item?</p>
+            <p><strong>Usable:</strong> Can players use/consume this item?</p>
+            <p><strong>Equippable:</strong> Can this item be equipped?</p>
+            <p><strong>Tradeable:</strong> Can players trade this item?</p>
+            <p><strong>Quest Item:</strong> Is this tied to quest progression?</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>🎨 Visual Assets</h4>
+        <div class="field-group">
+          <p><strong>Icon:</strong> Small image shown in inventory (PNG, JPG, BMP - max 5MB)</p>
+          <p><strong>Mesh:</strong> 3D model file for the item (FBX, OBJ - max 50MB)</p>
+          <p><strong>Material Path:</strong> Unreal Engine path to material assets</p>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>⚙️ Equipment System</h4>
+        <div class="field-group">
+          <p>When "Equippable" is checked, you can specify which equipment slot the item uses:</p>
+          <ul>
+            <li>Helmet, Chest, Legs, Boots, Gloves</li>
+            <li>Main Hand, Off Hand (weapons, shields)</li>
+            <li>Ring, Necklace (accessories)</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>🔧 Custom Properties</h4>
+        <div class="field-group">
+          <p>Add custom key-value pairs for special item behaviors:</p>
+          <ul>
+            <li>Damage values for weapons</li>
+            <li>Armor ratings for protective gear</li>
+            <li>Spell effects for magical items</li>
+            <li>Any game-specific data you need</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>⌨️ Keyboard Shortcuts</h4>
+        <div class="shortcuts-grid">
+          <div class="shortcut-row">
+            <span class="shortcut-key">Ctrl + S</span>
+            <span class="shortcut-desc">Save current template</span>
+          </div>
+          <div class="shortcut-row">
+            <span class="shortcut-key">Ctrl + N</span>
+            <span class="shortcut-desc">Create new template</span>
+          </div>
+          <div class="shortcut-row">
+            <span class="shortcut-key">Ctrl + D</span>
+            <span class="shortcut-desc">Duplicate current template</span>
+          </div>
+          <div class="shortcut-row">
+            <span class="shortcut-key">Ctrl + T</span>
+            <span class="shortcut-desc">Toggle dark/light theme</span>
+          </div>
+          <div class="shortcut-row">
+            <span class="shortcut-key">Escape</span>
+            <span class="shortcut-desc">Close preview panel or current template or help panel</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>📤 Export Options</h4>
+        <div class="field-group">
+          <ul>
+            <li><strong>Export Item (.mnteaitem):</strong> Export current template with assets for Unreal Engine</li>
+            <li><strong>Export Items (.mnteaitems):</strong> Export multiple templates with assets</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>💡 Tips & Best Practices</h4>
+        <div class="field-group">
+          <ul>
+            <li>Use descriptive Item Names for better organization</li>
+            <li>Keep icon images small (256x256 or 512x512 recommended)</li>
+            <li>Use consistent naming conventions across your project</li>
+            <li>Preview templates before exporting to catch errors</li>
+            <li>Backup your templates regularly using the export buttons</li>
+            <li>Use selection tools to manage multiple templates efficiently</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="modal-section">
+        <h4>🆘 Troubleshooting</h4>
+        <div class="field-group">
+          <p><strong>File Upload Issues:</strong> Ensure files meet size and format requirements</p>
+          <p><strong>Validation Errors:</strong> Check that all required fields are filled correctly</p>
+          <p><strong>Export Problems:</strong> Make sure JSZip library loads properly for file exports</p>
+          <p><strong>Performance:</strong> Large numbers of templates may slow down the interface</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>

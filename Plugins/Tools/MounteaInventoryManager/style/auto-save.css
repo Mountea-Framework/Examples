@@ -1,0 +1,56 @@
+/* Auto-save Indicator */
+.autosave-indicator {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--success-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.3s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.autosave-indicator.show {
+    opacity: 1;
+}
+
+.autosave-icon {
+    font-size: 1.2rem;
+}
+
+.autosave-text {
+    font-weight: 500;
+}
+
+/* Dirty State Indicator */
+.template-item.dirty::before {
+    content: "•";
+    position: absolute;
+    transform: translateX(-50%);
+    left: var(--padding-md);
+    color: var(--warning-color);
+    font-size: 1.5rem;
+}
+
+.dirty-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--warning-color);
+    border-radius: 50%;
+    margin-left: var(--spacing-sm);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}

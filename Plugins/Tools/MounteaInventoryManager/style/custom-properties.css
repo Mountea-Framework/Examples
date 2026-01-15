@@ -1,0 +1,41 @@
+/* Custom Properties */
+.custom-properties {
+    background: var(--bg-light);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+}
+
+.custom-props-header {
+    margin-bottom: var(--spacing-lg);
+}
+
+.custom-props-header h3 {
+    margin-bottom: var(--spacing-sm);
+}
+
+.properties {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    width: 100%;
+}
+
+.custom-prop-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    align-items: end;
+}
+
+.custom-prop-row .form-group {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.remove-prop {
+    align-self: start;
+    justify-self: start;
+}
