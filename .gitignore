@@ -217,3 +217,7 @@ Plugins/*/.gitignore
 Plugins/*/.gitattributes
 Plugins/*/.github/*
 Plugins/*/.git/*
+Plugins/Tools/*/.gitignore
+Plugins/Tools/*/.gitattributes
+Plugins/Tools/*/.github/*
+Plugins/Tools/*/.git/*
